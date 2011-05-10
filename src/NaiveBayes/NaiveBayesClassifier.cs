@@ -93,7 +93,7 @@
 
         public double GetProbability(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category)
         {
-            double probability = 1.0;
+            var probability = 1.0;
 
             var catCount = this.categoryCount[category];
             var attributeCount = this.categoryAttributeCount[category];
@@ -127,7 +127,7 @@
 
         public double GetProbability(IEnumerable<Attribute<TAttributeKey>> attributes)
         {
-            double probability = this.knownConceptSet.Sum(category => GetProbability(attributes, category) * GetProbability(category));
+            var probability = this.knownConceptSet.Sum(category => GetProbability(attributes, category) * GetProbability(category));
 
             return probability == 0.0 ? 1.0 / this.totalSamples : probability;
         }
@@ -144,12 +144,13 @@
 
             foreach (var category in this.knownConceptSet)
             {
-                double probability = GetProbability(category, attributes);
-                if (probability >= bestProbability)
+                var probability = GetProbability(category, attributes);
+                if (probability < bestProbability)
                 {
-                    bestCategory = category;
-                    bestProbability = probability;
+                    continue;
                 }
+                bestCategory = category;
+                bestProbability = probability;
             }
 
             return bestCategory;
