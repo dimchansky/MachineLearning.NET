@@ -8,8 +8,8 @@
     <ProjectGuid>{FCADB7C7-5DBD-4FE5-96E7-2A9E93F70221}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MachineLearning.LatentSemanticIndexing</RootNamespace>
-    <AssemblyName>MachineLearning.LatentSemanticIndexing</AssemblyName>
+    <RootNamespace>MachineLearning.LatentSemanticAnalysis</RootNamespace>
+    <AssemblyName>MachineLearning.LatentSemanticAnalysis</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
