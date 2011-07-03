@@ -35,12 +35,16 @@
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DocumentTerms.cs" />
+    <Compile Include="Parsing\IParser.cs" />
+    <Compile Include="Parsing\IStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SparceVector.cs" />
+    <Compile Include="TermsDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
