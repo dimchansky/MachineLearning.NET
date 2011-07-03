@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveBayes", "src\NaiveBayes\NaiveBayes.csproj", "{A839C478-9F12-4E43-8D51-99913D00014A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LatentSemanticIndexing", "src\LatentSemanticIndexing\LatentSemanticIndexing.csproj", "{FCADB7C7-5DBD-4FE5-96E7-2A9E93F70221}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LatentSemanticAnalysis", "src\LatentSemanticAnalysis\LatentSemanticAnalysis.csproj", "{FCADB7C7-5DBD-4FE5-96E7-2A9E93F70221}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
