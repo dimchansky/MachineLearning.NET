@@ -9,7 +9,7 @@
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MachineLearning.LatentSemanticIndexing</RootNamespace>
-    <AssemblyName>LatentSemanticIndexing</AssemblyName>
+    <AssemblyName>MachineLearning.LatentSemanticIndexing</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
