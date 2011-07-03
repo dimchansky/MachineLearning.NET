@@ -1,4 +1,4 @@
-﻿namespace DataMining.NaiveBayes
+﻿namespace MachineLearning.NaiveBayes
 {
     using System;
     using System.Collections.Generic;
