@@ -158,7 +158,7 @@
         /// </summary>
         /// <param name="term">The term.</param>
         /// <param name="termId">The term id.</param>
-        /// <returns>True if the given term is in dictionary, False - otherwise.</returns>
+        /// <returns><c>true</c> if the given term is in dictionary; otherwise, <c>false</c>.</returns>
         public bool TryConvertTermToTermId(TTerm term, out int termId)
         {
             return this.term2Id.TryGetValue(term, out termId);
@@ -180,7 +180,7 @@
         /// </summary>
         /// <param name="termId">The term id.</param>
         /// <param name="term">The term.</param>
-        /// <returns>True if the given term id is in dictionary, False - otherwise.</returns>
+        /// <returns><c>true</c> if the given term id is in dictionary; otherwise, <c>false</c>.</returns>
         public bool TryConvertTermIdToTerm(int termId, out TTerm term)
         {
             return this.id2Term.TryGetValue(termId, out term);
