@@ -124,7 +124,7 @@
         /// <param name="term">The term.</param>
         /// <returns>The term id.</returns>
         /// <exception cref="KeyNotFoundException">if the given term is not in dictionary.</exception>
-        public int TermToId(TTerm term)
+        public int ConvertTermToTermId(TTerm term)
         {
             return this.term2Id[term];
         }
@@ -135,7 +135,7 @@
         /// <param name="term">The term.</param>
         /// <param name="termId">The term id.</param>
         /// <returns>True if the given term is in dictionary, False - otherwise.</returns>
-        public bool TryTermToId(TTerm term, out int termId)
+        public bool TryConvertTermToTermId(TTerm term, out int termId)
         {
             return this.term2Id.TryGetValue(term, out termId);
         }
@@ -146,7 +146,7 @@
         /// <param name="termId">The term id.</param>
         /// <returns>The term.</returns>
         /// <exception cref="KeyNotFoundException">if the given term id is not in dictionary.</exception>
-        public TTerm IdToTerm(int termId)
+        public TTerm ConvertTermIdToTerm(int termId)
         {
             return this.id2Term[termId];
         }
@@ -157,7 +157,7 @@
         /// <param name="termId">The term id.</param>
         /// <param name="term">The term.</param>
         /// <returns>True if the given term id is in dictionary, False - otherwise.</returns>
-        public bool TryIdToTerm(int termId, out TTerm term)
+        public bool TryConvertTermIdToTerm(int termId, out TTerm term)
         {
             return this.id2Term.TryGetValue(termId, out term);
         }
@@ -167,7 +167,7 @@
         /// </summary>
         /// <param name="termId">The term id.</param>
         /// <returns>The document frequency.</returns>
-        public int DocumentFrequencyById(int termId)
+        public int DocumentFrequencyByTermId(int termId)
         {
             int value;
             return this.df.TryGetValue(termId, out value) ? value : 0;
@@ -181,7 +181,7 @@
         public int DocumentFrequencyByTerm(TTerm term)
         {
             int termId;
-            return this.TryTermToId(term, out termId) ? this.DocumentFrequencyById(termId) : 0;
+            return this.TryConvertTermToTermId(term, out termId) ? this.DocumentFrequencyByTermId(termId) : 0;
         }
 
         #endregion
