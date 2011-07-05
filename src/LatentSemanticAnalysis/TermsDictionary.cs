@@ -119,6 +119,30 @@
         }
 
         /// <summary>
+        /// Determines whether the dictionary contains the given <paramref name="term"/>.
+        /// </summary>
+        /// <param name="term">The term.</param>
+        /// <returns>
+        /// 	<c>true</c> if the dictionary contains term; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ContainsTerm(TTerm term)
+        {
+            return term2Id.ContainsKey(term);
+        }
+
+        /// <summary>
+        /// Determines whether the dictionary contains the given <paramref name="termId"/>.
+        /// </summary>
+        /// <param name="termId">The term id.</param>
+        /// <returns>
+        ///     <c>true</c> if the dictionary contains term id; otherwise, <c>false</c>.
+        /// </returns>
+        public bool ConatinsTermId(int termId)
+        {
+            return id2Term.ContainsKey(termId);
+        }
+
+        /// <summary>
         /// Convert term to term id.
         /// </summary>
         /// <param name="term">The term.</param>
