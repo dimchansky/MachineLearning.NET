@@ -22,11 +22,11 @@
             {
                 if (value.Equals(default(T)))
                 {
-                    innerVector.Remove(idx);
+                    this.innerVector.Remove(idx);
                 }
                 else
                 {
-                    innerVector[idx] = value;
+                    this.innerVector[idx] = value;
                 }
             }
         }
@@ -35,7 +35,7 @@
         {
             get
             {
-                return innerVector.Count;
+                return this.innerVector.Count;
             }
         }
 
@@ -54,7 +54,7 @@
 
         public IEnumerator<KeyValuePair<int, T>> GetEnumerator()
         {
-            return innerVector.GetEnumerator();
+            return this.innerVector.GetEnumerator();
         }
 
         #endregion
