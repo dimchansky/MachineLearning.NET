@@ -20,8 +20,14 @@
         private readonly Dictionary<int, int> df = new Dictionary<int, int>();
 
         // number of terms in dictionary
-        public long TermsCount { get { return term2Id.Count; } }
-        
+        public long TermsCount
+        {
+            get
+            {
+                return this.term2Id.Count;
+            }
+        }
+
         // number of documents processed
         public long DocumentsCount { get; private set; }
 
@@ -33,7 +39,8 @@
 
         #endregion
 
-        public TermsDictionary() : this(Enumerable.Empty<TTerm[]>())
+        public TermsDictionary()
+            : this(Enumerable.Empty<TTerm[]>())
         {
         }
 
@@ -57,7 +64,7 @@
             }
             foreach (var document in documents)
             {
-                DocumentToSparceVector(document, true);
+                this.DocumentToSparceVector(document, true);
             }
         }
 
@@ -73,33 +80,33 @@
 
         public int TermToId(TTerm term)
         {
-            return term2Id[term];
+            return this.term2Id[term];
         }
 
         public bool TryTermToId(TTerm term, out int termId)
         {
-            return term2Id.TryGetValue(term, out termId);
+            return this.term2Id.TryGetValue(term, out termId);
         }
 
         public TTerm IdToTerm(int termId)
         {
-            return id2Term[termId];
+            return this.id2Term[termId];
         }
 
         public bool TryIdToTerm(int termId, out TTerm term)
         {
-            return id2Term.TryGetValue(termId, out term);
+            return this.id2Term.TryGetValue(termId, out term);
         }
 
         public int DocumentFrequencyById(int termId)
         {
-            return df[termId];
+            return this.df[termId];
         }
 
         public int DocumentFrequencyByTerm(TTerm term)
         {
-            var termId = TermToId(term);
-            return DocumentFrequencyById(termId);
+            int termId = this.TermToId(term);
+            return this.DocumentFrequencyById(termId);
         }
 
         #endregion
@@ -110,54 +117,58 @@
         {
             var result = new SparceVector<int>();
 
-            foreach (var groupByTerm in document.GroupBy(term => term))
+            int termsInDocument = document.Count;
+
+            if (termsInDocument > 0)
             {
-                var term = groupByTerm.Key;
-                // try to get term id
-                int termId;
-                if (!term2Id.TryGetValue(term, out termId))
+                foreach (var groupByTerm in document.GroupBy(term => term))
                 {
-                    // no term in dictionary
+                    TTerm term = groupByTerm.Key;
+                    // try to get term id
+                    int termId;
+                    if (!this.term2Id.TryGetValue(term, out termId))
+                    {
+                        // no term in dictionary
+                        if (allowUpdate)
+                        {
+                            // assign new id to term
+                            termId = this.term2Id.Count;
+                            this.term2Id.Add(term, termId);
+                            // update reverse mapping
+                            this.id2Term.Add(termId, term);
+                        }
+                        else
+                        {
+                            continue;
+                        }
+                    }
+
+                    // update how many times a term appeared in the document
+                    int termFrequency = groupByTerm.Count();
+                    result[termId] = termFrequency;
+
                     if (allowUpdate)
                     {
-                        // assign new id to term
-                        termId = term2Id.Count;
-                        term2Id.Add(term, termId);
-                        // update reverse mapping
-                        id2Term.Add(termId, term);
-                    }
-                    else
-                    {
-                        continue;
+                        // increase document count for each unique term that appeared in the document
+                        int termDf;
+                        if (!this.df.TryGetValue(termId, out termDf))
+                        {
+                            termDf = 0;
+                        }
+                        this.df[termId] = termDf + 1;
+
+                        // increase total number of non-zeroes in the BOW matrix
+                        this.TotalNonZeroMatrixElements += 1;
                     }
                 }
-
-                // update how many times a term appeared in the document
-                var termFrequency = groupByTerm.Count();
-                result[termId] = termFrequency;
 
                 if (allowUpdate)
                 {
-                    // increase document count for each unique term that appeared in the document
-                    int termDf;
-                    if (!df.TryGetValue(termId, out termDf))
-                    {
-                        termDf = 0;
-                    }
-                    df[termId] = termDf + 1;
-
-                    // increase total number of non-zeroes in the BOW matrix
-                    this.TotalNonZeroMatrixElements += 1;
+                    // increase total document number
+                    this.DocumentsCount += 1;
+                    // increase total number of processed terms
+                    this.TotalTermsProcessed += termsInDocument;
                 }
-            }
-
-            var termsInDocument = document.Count;
-            if (allowUpdate && termsInDocument > 0)
-            {
-                // increase total document number
-                this.DocumentsCount += 1;
-                // increase total number of processed terms
-                this.TotalTermsProcessed += termsInDocument;
             }
 
             return result;
