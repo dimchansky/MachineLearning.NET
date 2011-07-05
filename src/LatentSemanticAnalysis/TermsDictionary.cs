@@ -137,7 +137,7 @@
         /// <returns>
         ///     <c>true</c> if the dictionary contains term id; otherwise, <c>false</c>.
         /// </returns>
-        public bool ConatinsTermId(int termId)
+        public bool ContainsTermId(int termId)
         {
             return id2Term.ContainsKey(termId);
         }
