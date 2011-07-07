@@ -44,6 +44,11 @@
 
         public void Write<T>(IEnumerable<SparceVector<T>> rows) where T : struct, IEquatable<T>
         {
+            if (this.stream == null)
+            {
+                throw new ObjectDisposedException(this.GetType().FullName);
+            }
+
             using (var sw = new StreamWriter(this.stream))
             {
                 // write header
