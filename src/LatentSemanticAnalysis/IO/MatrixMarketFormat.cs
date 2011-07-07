@@ -1,6 +1,6 @@
 namespace MachineLearning.LatentSemanticAnalysis.IO
 {
-    internal class MatrixMarketFormat
+    internal static class MatrixMarketFormat
     {
         public static string HeaderLine
         {
