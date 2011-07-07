@@ -42,7 +42,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public void Write<T>(IEnumerable<SparceVector<T>> vectors) where T : struct, IEquatable<T>
+        public void Write<T>(IEnumerable<SparceVector<T>> rows) where T : struct, IEquatable<T>
         {
             using (var sw = new StreamWriter(this.stream))
             {
@@ -57,11 +57,11 @@
                 this.ColumnsCount = 0;
                 this.ElementsCount = 0;
 
-                // write vectors
-                foreach (var vector in vectors)
+                // write rows
+                foreach (var row in rows)
                 {
                     this.RowsCount++; // update rows count
-                    foreach (var element in vector)
+                    foreach (var element in row)
                     {
                         int column = element.Key + 1; // +1 because Matrix Market format starts counting from 1
 
