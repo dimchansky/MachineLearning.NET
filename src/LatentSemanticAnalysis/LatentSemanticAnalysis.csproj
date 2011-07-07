@@ -40,6 +40,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="DocumentTerms.cs" />
+    <Compile Include="IO\ISparceMatrixWriter.cs" />
+    <Compile Include="IO\MatrixMarketFormat.cs" />
+    <Compile Include="IO\MatrixMarketWriter.cs" />
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="Parsing\IStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

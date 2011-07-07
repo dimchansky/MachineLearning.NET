@@ -9,7 +9,7 @@
     {
         #region Fields and Properties
 
-        private readonly SortedDictionary<int, T> innerVector = new SortedDictionary<int, T>();
+        private readonly SortedDictionary<int, T> innerVector;
 
         public T this[int idx]
         {
@@ -41,6 +41,20 @@
 
         #endregion
 
+        #region Constructors
+
+        public SparceVector()
+        {
+            this.innerVector = new SortedDictionary<int, T>();
+        }
+
+        public SparceVector(IDictionary<int, T> dictionary)
+        {
+            this.innerVector = new SortedDictionary<int, T>(dictionary);
+        }
+
+        #endregion
+
         #region Implementation of IEnumerable
 
         IEnumerator IEnumerable.GetEnumerator()
@@ -55,6 +69,15 @@
         public IEnumerator<KeyValuePair<int, T>> GetEnumerator()
         {
             return this.innerVector.GetEnumerator();
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public void Add(int index, T value)
+        {
+            this[index] = value;
         }
 
         #endregion
