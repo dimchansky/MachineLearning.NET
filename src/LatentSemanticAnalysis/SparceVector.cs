@@ -9,7 +9,7 @@
     {
         #region Fields and Properties
 
-        private readonly SortedDictionary<int, T> innerVector;
+        private readonly SortedDictionary<int, T> innerVector = new SortedDictionary<int, T>();
 
         public T this[int idx]
         {
@@ -45,12 +45,18 @@
 
         public SparceVector()
         {
-            this.innerVector = new SortedDictionary<int, T>();
         }
 
-        public SparceVector(IDictionary<int, T> dictionary)
+        public SparceVector(IEnumerable<KeyValuePair<int, T>> pairs)
         {
-            this.innerVector = new SortedDictionary<int, T>(dictionary);
+            if (pairs == null)
+            {
+                throw new ArgumentNullException("pairs");
+            }
+            foreach (var pair in pairs)
+            {
+                this[pair.Key] = pair.Value;
+            }
         }
 
         #endregion
