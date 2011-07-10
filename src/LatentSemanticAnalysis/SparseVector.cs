@@ -5,7 +5,7 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    public sealed class SparceVector<T> : IEnumerable<KeyValuePair<int, T>>
+    public sealed class SparseVector<T> : IEnumerable<KeyValuePair<int, T>>
         where T : struct, IEquatable<T>
     {
         #region Fields and Properties
@@ -44,11 +44,11 @@
 
         #region Constructors
 
-        public SparceVector()
+        public SparseVector()
         {
         }
 
-        public SparceVector(IEnumerable<KeyValuePair<int, T>> pairs)
+        public SparseVector(IEnumerable<KeyValuePair<int, T>> pairs)
         {
             if (pairs == null)
             {
@@ -91,7 +91,7 @@
 
         #region Equality Members
 
-        public bool Equals(SparceVector<T> other)
+        public bool Equals(SparseVector<T> other)
         {
             if (ReferenceEquals(null, other))
             {
@@ -114,11 +114,11 @@
             {
                 return true;
             }
-            if (obj.GetType() != typeof(SparceVector<T>))
+            if (obj.GetType() != typeof(SparseVector<T>))
             {
                 return false;
             }
-            return Equals((SparceVector<T>)obj);
+            return Equals((SparseVector<T>)obj);
         }
 
         public override int GetHashCode()
@@ -126,12 +126,12 @@
             return SortedDictionaryGetHashCode(this.innerVector);
         }
 
-        public static bool operator ==(SparceVector<T> left, SparceVector<T> right)
+        public static bool operator ==(SparseVector<T> left, SparseVector<T> right)
         {
             return Equals(left, right);
         }
 
-        public static bool operator !=(SparceVector<T> left, SparceVector<T> right)
+        public static bool operator !=(SparseVector<T> left, SparseVector<T> right)
         {
             return !Equals(left, right);
         }

@@ -92,30 +92,30 @@
             }
             foreach (var document in documents)
             {
-                this.DocumentToSparceVector(document, true);
+                this.DocumentToSparseVector(document, true);
             }
         }
 
         /// <summary>
-        /// Upates the dictionary in the process: create ids for new words. At the same time, update document frequency -
+        /// Updates the dictionary in the process: create ids for new words. At the same time, update document frequency -
         /// for for each word appearing in this document, increase its DF (Document-Frequency) by one.
-        /// Also convert document (an array of terms) into the bag-of-words reprezentation. Each term is assumed to be a normalized word.
+        /// Also convert document (an array of terms) into the bag-of-words representation. Each term is assumed to be a normalized word.
         /// </summary>
         /// <param name="document">The document.</param>
-        /// <returns>The sparce vector of bag-of-words. Each vector index is term id and vector elements are term counts.</returns>
-        public SparceVector<int> AddDocument(TTerm[] document)
+        /// <returns>The sparse vector of bag-of-words. Each vector index is term id and vector elements are term counts.</returns>
+        public SparseVector<int> AddDocument(TTerm[] document)
         {
-            return this.DocumentToSparceVector(document, true);
+            return this.DocumentToSparseVector(document, true);
         }
 
         /// <summary>
-        /// Convert document (an array of terms) into the bag-of-words reprezentation. Each term is assumed to be a normalized word.
+        /// Convert document (an array of terms) into the bag-of-words representation. Each term is assumed to be a normalized word.
         /// </summary>
         /// <param name="document">The document.</param>
-        /// <returns>The sparce vector of bag-of-words. Each vector index is term id and vector elements are term counts.</returns>
-        public SparceVector<int> DocumentToVector(TTerm[] document)
+        /// <returns>The sparse vector of bag-of-words. Each vector index is term id and vector elements are term counts.</returns>
+        public SparseVector<int> DocumentToVector(TTerm[] document)
         {
-            return this.DocumentToSparceVector(document);
+            return this.DocumentToSparseVector(document);
         }
 
         /// <summary>
@@ -212,9 +212,9 @@
 
         #region Helpers
 
-        private SparceVector<int> DocumentToSparceVector(ICollection<TTerm> document, bool allowUpdate = false)
+        private SparseVector<int> DocumentToSparseVector(ICollection<TTerm> document, bool allowUpdate = false)
         {
-            var result = new SparceVector<int>();
+            var result = new SparseVector<int>();
 
             int termsInDocument = document.Count;
 

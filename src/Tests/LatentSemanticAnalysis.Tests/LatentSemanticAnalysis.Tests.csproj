@@ -46,7 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparceVectorTests.cs" />
+    <Compile Include="SparseVectorTests.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\LatentSemanticAnalysis\LatentSemanticAnalysis.csproj">

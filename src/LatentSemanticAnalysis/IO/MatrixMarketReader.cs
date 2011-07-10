@@ -6,7 +6,7 @@
     using System.IO;
     using System.Linq;
 
-    public class MatrixMarketReader : IDisposable, ISparceMatrixReader
+    public class MatrixMarketReader : IDisposable, ISparseMatrixReader
     {
         #region Fields and Properties
 
@@ -57,7 +57,7 @@
 
         #endregion
 
-        #region Implementation of ISparceMatrixReader
+        #region Implementation of ISparseMatrixReader
 
         public int RowsCount { get; private set; }
 
@@ -65,7 +65,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public IEnumerable<SparceVector<T>> ReadRows<T>() where T : struct, IEquatable<T>
+        public IEnumerable<SparseVector<T>> ReadRows<T>() where T : struct, IEquatable<T>
         {
             if (this.streamReader == null)
             {
@@ -80,7 +80,7 @@
 
             var totalElementsCount = 0L;
             var currentRowIdx = -1L;
-            SparceVector<T> currentRow = null;
+            SparseVector<T> currentRow = null;
             foreach (var parsedLine in (from line in GetLines(this.streamReader)
                                         let trimmedLine = line.Trim()
                                         where trimmedLine != string.Empty && !trimmedLine.StartsWith("%")
@@ -126,12 +126,12 @@
                     // return all empty rows between last and current row
                     for (var i = currentRowIdx + 1L; i < rowIdx; i++)
                     {
-                        yield return new SparceVector<T>();
+                        yield return new SparseVector<T>();
                     }
 
                     // create new current row
                     currentRowIdx = rowIdx;
-                    currentRow = new SparceVector<T>();
+                    currentRow = new SparseVector<T>();
                 }
                 
 // ReSharper disable PossibleNullReferenceException
@@ -148,7 +148,7 @@
             // return empty rows between last and row and the total rows
             for (long i = currentRowIdx + 1; i < RowsCount; i++)
             {
-                yield return new SparceVector<T>();
+                yield return new SparseVector<T>();
             }
         }
 

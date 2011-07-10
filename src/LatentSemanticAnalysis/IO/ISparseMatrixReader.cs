@@ -3,7 +3,7 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
 {
     using System.Collections.Generic;
 
-    interface ISparceMatrixReader
+    interface ISparseMatrixReader
     {
         int RowsCount { get; }
 
@@ -11,7 +11,7 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
 
         long ElementsCount { get; }
 
-        IEnumerable<SparceVector<T>> ReadRows<T>()
+        IEnumerable<SparseVector<T>> ReadRows<T>()
             where T : struct, IEquatable<T>;
     }
 }

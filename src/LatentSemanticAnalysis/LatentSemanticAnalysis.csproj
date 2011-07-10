@@ -39,15 +39,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IO\ISparceMatrixReader.cs" />
-    <Compile Include="IO\ISparceMatrixWriter.cs" />
+    <Compile Include="IO\ISparseMatrixReader.cs" />
+    <Compile Include="IO\ISparseMatrixWriter.cs" />
     <Compile Include="IO\MatrixMarketFormat.cs" />
     <Compile Include="IO\MatrixMarketWriter.cs" />
     <Compile Include="IO\MatrixMarketReader.cs" />
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="Parsing\IStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparceVector.cs" />
+    <Compile Include="SparseVector.cs" />
     <Compile Include="Corpora\TermsDictionary.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

@@ -3,7 +3,7 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
     using System;
     using System.Collections.Generic;
 
-    public interface ISparceMatrixWriter
+    public interface ISparseMatrixWriter
     {
         int RowsCount { get; }
 
@@ -11,7 +11,7 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
 
         long ElementsCount { get; }
 
-        void Write<T>(IEnumerable<SparceVector<T>> rows)
+        void Write<T>(IEnumerable<SparseVector<T>> rows)
             where T : struct, IEquatable<T>, IFormattable;
     }
 }

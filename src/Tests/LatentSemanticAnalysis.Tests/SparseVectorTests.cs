@@ -9,7 +9,7 @@
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
     [TestClass]
-    public class SparceVectorTests
+    public class SparseVectorTests
     {
         [TestMethod]
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughSetAccessors()
@@ -17,7 +17,7 @@
             // arrange           
             var originalVector = GenerateRandomVector(1000, 0.7);
 
-            var sv = new SparceVector<double>();
+            var sv = new SparseVector<double>();
 
             // act
             foreach (var element in originalVector)
@@ -38,7 +38,7 @@
             // arrange           
             var originalVector = GenerateRandomVector(1000, 0.7);
 
-            var sv = new SparceVector<double>();
+            var sv = new SparseVector<double>();
 
             // act
             foreach (var element in originalVector)
@@ -60,7 +60,7 @@
             var originalVector = GenerateRandomVector(1000, 0.7);
 
             // act
-            var sv = new SparceVector<double>(originalVector);
+            var sv = new SparseVector<double>(originalVector);
 
             // assert
             foreach (var element in originalVector)
@@ -76,17 +76,17 @@
             // arrange
 
             // act
-            var sv = new SparceVector<double>(null);
+            var sv = new SparseVector<double>(null);
             
             // assert
-            Assert.Fail("SparceVector ctor must throw ArgumentNullException if null argument passed.");
+            Assert.Fail("SparseVector ctor must throw ArgumentNullException if null argument passed.");
         }
 
         [TestMethod]
         public void NonZeroValuesCountReturnsZeroForEmptyVector()
         {
             // arrange
-            var sv = new SparceVector<double>();
+            var sv = new SparseVector<double>();
 
             // act
 
@@ -103,7 +103,7 @@
 
             var nonZeroElementsCount = originalVector.Count(arg => arg.Value != 0.0);
 
-            var sv = new SparceVector<double>();
+            var sv = new SparseVector<double>();
 
             // act
             foreach (var element in originalVector)
@@ -120,7 +120,7 @@
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
-            var sv = new SparceVector<double>(originalVector);
+            var sv = new SparseVector<double>(originalVector);
             var nonZeroValuesPairs = originalVector.Where(pair => pair.Value != 0.0).OrderBy(pair => pair.Key).ToArray();
 
             // act
@@ -130,13 +130,13 @@
         }
 
         [TestMethod]
-        public void EqualOperatorReturnsTrueForEqualSparceVectors()
+        public void EqualOperatorReturnsTrueForEqualSparseVectors()
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
             var originalVectorCopy = originalVector.ToArray();
-            var sv1 = new SparceVector<double>(originalVector);
-            var sv2 = new SparceVector<double>(originalVectorCopy);
+            var sv1 = new SparseVector<double>(originalVector);
+            var sv2 = new SparseVector<double>(originalVectorCopy);
 
             // act
             var trueResult = sv1 == sv2;
@@ -152,8 +152,8 @@
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
-            var sv1 = new SparceVector<double>(originalVector);
-            SparceVector<double> sv2 = null;
+            var sv1 = new SparseVector<double>(originalVector);
+            SparseVector<double> sv2 = null;
 
             // act
             var falseResult1 = sv1.Equals(sv2);
@@ -169,7 +169,7 @@
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
-            var sv = new SparceVector<double>(originalVector);
+            var sv = new SparseVector<double>(originalVector);
 
             // act
             var falseResult1 = sv.Equals(string.Empty);
@@ -183,8 +183,8 @@
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
-            var sv1 = new SparceVector<double>(originalVector);
-            SparceVector<double> sv2 = sv1;
+            var sv1 = new SparseVector<double>(originalVector);
+            SparseVector<double> sv2 = sv1;
 
             // act
             var trueResult1 = sv1.Equals(sv2);
@@ -196,13 +196,13 @@
         }
 
         [TestMethod]
-        public void GetHashCodeReturnsSameHashCodeForEqualSparceVectors()
+        public void GetHashCodeReturnsSameHashCodeForEqualSparseVectors()
         {
             // arrange
             var originalVector = GenerateRandomVector(1000, 0.7);
             var originalVectorCopy = originalVector.ToArray();
-            var sv1 = new SparceVector<double>(originalVector);
-            var sv2 = new SparceVector<double>(originalVectorCopy);
+            var sv1 = new SparseVector<double>(originalVector);
+            var sv2 = new SparseVector<double>(originalVectorCopy);
             
             // act
             var hc1 = sv1.GetHashCode();

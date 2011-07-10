@@ -5,7 +5,7 @@
     using System.Globalization;
     using System.IO;
 
-    public class MatrixMarketWriter : IDisposable, ISparceMatrixWriter
+    public class MatrixMarketWriter : IDisposable, ISparseMatrixWriter
     {
         #region Fields and Properties
 
@@ -35,7 +35,7 @@
 
         #endregion
 
-        #region Implementation of ISparceMatrixWriter
+        #region Implementation of ISparseMatrixWriter
 
         public int RowsCount { get; private set; }
 
@@ -43,7 +43,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public void Write<T>(IEnumerable<SparceVector<T>> rows) where T : struct, IEquatable<T>, IFormattable
+        public void Write<T>(IEnumerable<SparseVector<T>> rows) where T : struct, IEquatable<T>, IFormattable
         {
             if (this.stream == null)
             {
