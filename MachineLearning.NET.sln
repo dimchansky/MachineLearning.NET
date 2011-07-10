@@ -5,6 +5,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveBayes", "src\NaiveBaye
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LatentSemanticAnalysis", "src\LatentSemanticAnalysis\LatentSemanticAnalysis.csproj", "{FCADB7C7-5DBD-4FE5-96E7-2A9E93F70221}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
