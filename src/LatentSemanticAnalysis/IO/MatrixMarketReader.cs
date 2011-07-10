@@ -205,6 +205,8 @@
             }
         }
 
+        #region class MatrixParsedLine<T>
+
         private sealed class MatrixParsedLine<T>
         {
             private readonly int row;
@@ -242,6 +244,10 @@
                 this.value = value;
             }
         }
+
+        #endregion
+
+        #region class MatrixLineParser<T>
 
         private sealed class MatrixLineParser<T>
         {
@@ -298,6 +304,8 @@
                 return (Func<string, T>)(object)f;
             }
         }
+
+        #endregion
 
         #endregion
     }
