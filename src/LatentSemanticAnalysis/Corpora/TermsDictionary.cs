@@ -55,6 +55,8 @@
 
         #endregion
 
+        #region Constructors
+
         /// <summary>
         /// Initializes a new instance of the <see cref="TermsDictionary&lt;TTerm&gt;"/> class.
         /// </summary>
@@ -76,6 +78,8 @@
 
             this.AddDocuments(documents);
         }
+
+        #endregion
 
         #region Public Methods
 
