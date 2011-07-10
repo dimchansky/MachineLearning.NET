@@ -129,6 +129,89 @@
             Assert.IsTrue(sv.SequenceEqual(nonZeroValuesPairs));
         }
 
+        [TestMethod]
+        public void EqualOperatorReturnsTrueForEqualSparceVectors()
+        {
+            // arrange
+            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVectorCopy = originalVector.ToArray();
+            var sv1 = new SparceVector<double>(originalVector);
+            var sv2 = new SparceVector<double>(originalVectorCopy);
+
+            // act
+            var trueResult = sv1 == sv2;
+            var falseResult = sv1 != sv2;
+
+            // assert
+            Assert.IsTrue(trueResult);
+            Assert.IsFalse(falseResult);
+        }
+
+        [TestMethod]
+        public void EqualsReturnsFalseForNullArgument()
+        {
+            // arrange
+            var originalVector = GenerateRandomVector(1000, 0.7);
+            var sv1 = new SparceVector<double>(originalVector);
+            SparceVector<double> sv2 = null;
+
+            // act
+            var falseResult1 = sv1.Equals(sv2);
+            var falseResult2 = sv1.Equals((object)sv2);
+
+            // assert
+            Assert.IsFalse(falseResult1);
+            Assert.IsFalse(falseResult2);
+        }
+
+        [TestMethod]
+        public void EqualsReturnsFalseForDifferentTypeArgument()
+        {
+            // arrange
+            var originalVector = GenerateRandomVector(1000, 0.7);
+            var sv = new SparceVector<double>(originalVector);
+
+            // act
+            var falseResult1 = sv.Equals(string.Empty);
+
+            // assert
+            Assert.IsFalse(falseResult1);
+        }
+
+        [TestMethod]
+        public void EqualsReturnsTrueForSameReferenceObjects()
+        {
+            // arrange
+            var originalVector = GenerateRandomVector(1000, 0.7);
+            var sv1 = new SparceVector<double>(originalVector);
+            SparceVector<double> sv2 = sv1;
+
+            // act
+            var trueResult1 = sv1.Equals(sv2);
+            var trueResult2 = sv1.Equals((object)sv2);
+
+            // assert
+            Assert.IsTrue(trueResult1);
+            Assert.IsTrue(trueResult2);
+        }
+
+        [TestMethod]
+        public void GetHashCodeReturnsSameHashCodeForEqualSparceVectors()
+        {
+            // arrange
+            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVectorCopy = originalVector.ToArray();
+            var sv1 = new SparceVector<double>(originalVector);
+            var sv2 = new SparceVector<double>(originalVectorCopy);
+            
+            // act
+            var hc1 = sv1.GetHashCode();
+            var hc2 = sv2.GetHashCode();
+
+            // assert
+            Assert.AreEqual(hc1, hc2);
+        }
+
         #region Helpers
 
         private static Dictionary<int, double> GenerateRandomVector(int count, double zeroProbability)
