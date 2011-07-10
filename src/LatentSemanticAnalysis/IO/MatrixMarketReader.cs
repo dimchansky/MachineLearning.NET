@@ -59,9 +59,9 @@
 
         #region Implementation of ISparceMatrixReader
 
-        public long RowsCount { get; private set; }
+        public int RowsCount { get; private set; }
 
-        public long ColumnsCount { get; private set; }
+        public int ColumnsCount { get; private set; }
 
         public long ElementsCount { get; private set; }
 

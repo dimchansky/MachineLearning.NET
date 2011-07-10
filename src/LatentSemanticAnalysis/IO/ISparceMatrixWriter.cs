@@ -5,9 +5,9 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
 
     public interface ISparceMatrixWriter
     {
-        long RowsCount { get; }
+        int RowsCount { get; }
 
-        long ColumnsCount { get; }
+        int ColumnsCount { get; }
 
         long ElementsCount { get; }
 

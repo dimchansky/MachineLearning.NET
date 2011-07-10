@@ -37,9 +37,9 @@
 
         #region Implementation of ISparceMatrixWriter
 
-        public long RowsCount { get; private set; }
+        public int RowsCount { get; private set; }
 
-        public long ColumnsCount { get; private set; }
+        public int ColumnsCount { get; private set; }
 
         public long ElementsCount { get; private set; }
 
@@ -61,7 +61,7 @@
 
                 this.RowsCount = 0;
                 this.ColumnsCount = 0;
-                this.ElementsCount = 0;
+                this.ElementsCount = 0L;
 
                 // write rows
                 foreach (var row in rows)
