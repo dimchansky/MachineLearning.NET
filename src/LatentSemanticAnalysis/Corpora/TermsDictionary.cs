@@ -218,56 +218,53 @@
 
             int termsInDocument = document.Count;
 
-            if (termsInDocument > 0)
+            foreach (var groupByTerm in document.GroupBy(term => term))
             {
-                foreach (var groupByTerm in document.GroupBy(term => term))
+                TTerm term = groupByTerm.Key;
+                // try to get term id
+                int termId;
+                if (!this.term2Id.TryGetValue(term, out termId))
                 {
-                    TTerm term = groupByTerm.Key;
-                    // try to get term id
-                    int termId;
-                    if (!this.term2Id.TryGetValue(term, out termId))
-                    {
-                        // no term in dictionary
-                        if (allowUpdate)
-                        {
-                            // assign new id to term
-                            termId = this.term2Id.Count;
-                            this.term2Id.Add(term, termId);
-                            // update reverse mapping
-                            this.id2Term.Add(termId, term);
-                        }
-                        else
-                        {
-                            continue;
-                        }
-                    }
-
-                    // update how many times a term appeared in the document
-                    int termFrequency = groupByTerm.Count();
-                    result[termId] = termFrequency;
-
+                    // no term in dictionary
                     if (allowUpdate)
                     {
-                        // increase document count for each unique term that appeared in the document
-                        int termDf;
-                        if (!this.df.TryGetValue(termId, out termDf))
-                        {
-                            termDf = 0;
-                        }
-                        this.df[termId] = termDf + 1;
-
-                        // increase total number of non-zeroes in the BOW matrix
-                        this.TotalNonZeroMatrixElements += 1;
+                        // assign new id to term
+                        termId = this.term2Id.Count;
+                        this.term2Id.Add(term, termId);
+                        // update reverse mapping
+                        this.id2Term.Add(termId, term);
+                    }
+                    else
+                    {
+                        continue;
                     }
                 }
+
+                // update how many times a term appeared in the document
+                int termFrequency = groupByTerm.Count();
+                result[termId] = termFrequency;
 
                 if (allowUpdate)
                 {
-                    // increase total document number
-                    this.DocumentsCount += 1;
-                    // increase total number of processed terms
-                    this.TotalTermsProcessed += termsInDocument;
+                    // increase document count for each unique term that appeared in the document
+                    int termDf;
+                    if (!this.df.TryGetValue(termId, out termDf))
+                    {
+                        termDf = 0;
+                    }
+                    this.df[termId] = termDf + 1;
+
+                    // increase total number of non-zeroes in the BOW matrix
+                    this.TotalNonZeroMatrixElements += 1;
                 }
+            }
+
+            if (allowUpdate)
+            {
+                // increase total document number
+                this.DocumentsCount += 1;
+                // increase total number of processed terms
+                this.TotalTermsProcessed += termsInDocument;
             }
 
             return result;
