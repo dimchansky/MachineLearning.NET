@@ -140,7 +140,7 @@
 
         #region Helpers
 
-        private static bool SortedDictionaryEquals(SortedDictionary<int, T> dict1, SortedDictionary<int, T> dict2)
+        private static bool SortedDictionaryEquals(ICollection<KeyValuePair<int, T>> dict1, ICollection<KeyValuePair<int, T>> dict2)
         {
             if (ReferenceEquals(dict1, dict2))
             {
@@ -151,7 +151,7 @@
                 return false;
             }
 
-            return dict1.SequenceEqual(dict2);
+            return dict1.Count == dict2.Count && dict1.SequenceEqual(dict2);
         }
 
         private static int SortedDictionaryGetHashCode(ICollection<KeyValuePair<int, T>> dict)
