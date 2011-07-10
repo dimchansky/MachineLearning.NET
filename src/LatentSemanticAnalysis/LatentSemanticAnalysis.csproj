@@ -39,7 +39,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DocumentTerms.cs" />
     <Compile Include="IO\ISparceMatrixReader.cs" />
     <Compile Include="IO\ISparceMatrixWriter.cs" />
     <Compile Include="IO\MatrixMarketFormat.cs" />
