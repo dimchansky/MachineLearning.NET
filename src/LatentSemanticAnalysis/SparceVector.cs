@@ -3,6 +3,7 @@
     using System;
     using System.Collections;
     using System.Collections.Generic;
+    using System.Linq;
 
     public sealed class SparceVector<T> : IEnumerable<KeyValuePair<int, T>>
         where T : struct, IEquatable<T>
@@ -84,6 +85,83 @@
         public void Add(int index, T value)
         {
             this[index] = value;
+        }
+
+        #endregion
+
+        #region Equality Members
+
+        public bool Equals(SparceVector<T> other)
+        {
+            if (ReferenceEquals(null, other))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, other))
+            {
+                return true;
+            }
+            return SortedDictionaryEquals(other.innerVector, this.innerVector);
+        }
+
+        public override bool Equals(object obj)
+        {
+            if (ReferenceEquals(null, obj))
+            {
+                return false;
+            }
+            if (ReferenceEquals(this, obj))
+            {
+                return true;
+            }
+            if (obj.GetType() != typeof(SparceVector<T>))
+            {
+                return false;
+            }
+            return Equals((SparceVector<T>)obj);
+        }
+
+        public override int GetHashCode()
+        {
+            return SortedDictionaryGetHashCode(this.innerVector);
+        }
+
+        public static bool operator ==(SparceVector<T> left, SparceVector<T> right)
+        {
+            return Equals(left, right);
+        }
+
+        public static bool operator !=(SparceVector<T> left, SparceVector<T> right)
+        {
+            return !Equals(left, right);
+        }
+
+        #endregion
+
+        #region Helpers
+
+        private static bool SortedDictionaryEquals(SortedDictionary<int, T> dict1, SortedDictionary<int, T> dict2)
+        {
+            if (ReferenceEquals(dict1, dict2))
+            {
+                return true;
+            }
+            if (ReferenceEquals(dict1, null) || ReferenceEquals(dict2, null))
+            {
+                return false;
+            }
+
+            return dict1.SequenceEqual(dict2);
+        }
+
+        private static int SortedDictionaryGetHashCode(ICollection<KeyValuePair<int, T>> dict)
+        {
+            return dict == null ? 0 : dict.Aggregate(dict.Count, (acc, pair) => CombineHashCodes(acc, CombineHashCodes(pair.Key.GetHashCode(), pair.Value.GetHashCode())));
+        }
+
+        private static int CombineHashCodes(int h1, int h2)
+        {
+            return (((h1 << 5) + h1) ^ h2);
         }
 
         #endregion
