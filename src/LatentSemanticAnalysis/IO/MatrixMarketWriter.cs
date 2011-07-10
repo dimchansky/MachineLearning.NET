@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Globalization;
     using System.IO;
 
     public class MatrixMarketWriter : IDisposable, ISparceMatrixWriter
@@ -42,7 +43,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public void Write<T>(IEnumerable<SparceVector<T>> rows) where T : struct, IEquatable<T>
+        public void Write<T>(IEnumerable<SparceVector<T>> rows) where T : struct, IEquatable<T>, IFormattable
         {
             if (this.stream == null)
             {
@@ -78,7 +79,7 @@
                         T value = element.Value;
                         if (!value.Equals(default(T)))
                         {
-                            sw.WriteLine("{0} {1} {2}", this.RowsCount, column, value);
+                            sw.WriteLine("{0} {1} {2}", this.RowsCount.ToString(CultureInfo.InvariantCulture), column.ToString(CultureInfo.InvariantCulture), value.ToString("G", CultureInfo.InvariantCulture));
                             this.ElementsCount++; // update elements count
                         }
                     }
@@ -87,7 +88,7 @@
                 // write matrix stats
                 sw.Flush();
                 sw.BaseStream.Seek(matrixStatsPosition, SeekOrigin.Begin);
-                sw.Write("{0} {1} {2}", this.RowsCount, this.ColumnsCount, this.ElementsCount);
+                sw.Write("{0} {1} {2}", this.RowsCount.ToString(CultureInfo.InvariantCulture), this.ColumnsCount.ToString(CultureInfo.InvariantCulture), this.ElementsCount.ToString(CultureInfo.InvariantCulture));
             }
         }
 
