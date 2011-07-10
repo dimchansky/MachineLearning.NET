@@ -45,7 +45,9 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="MatrixMarketReaderWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Helpers\SparseVectorHelper.cs" />
     <Compile Include="SparseVectorTests.cs" />
   </ItemGroup>
   <ItemGroup>

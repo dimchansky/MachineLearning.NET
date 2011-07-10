@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using LatentSemanticAnalysis.Tests.Helpers;
+
     using MachineLearning.LatentSemanticAnalysis;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
@@ -15,7 +17,7 @@
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughSetAccessors()
         {
             // arrange           
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
 
             var sv = new SparseVector<double>();
 
@@ -36,7 +38,7 @@
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughAddMethod()
         {
             // arrange           
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
 
             var sv = new SparseVector<double>();
 
@@ -57,7 +59,7 @@
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughConstructor()
         {
             // arrange           
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
 
             // act
             var sv = new SparseVector<double>(originalVector);
@@ -99,7 +101,7 @@
         public void NonZeroValuesCountReturnsOnlyNonZeroElementsCount()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);            
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);            
 
             var nonZeroElementsCount = originalVector.Count(arg => arg.Value != 0.0);
 
@@ -119,7 +121,7 @@
         public void EnumeratorReturnsOnlyNonZeroValuePairsOrderedByIndexAscending()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var sv = new SparseVector<double>(originalVector);
             var nonZeroValuesPairs = originalVector.Where(pair => pair.Value != 0.0).OrderBy(pair => pair.Key).ToArray();
 
@@ -133,7 +135,7 @@
         public void EqualOperatorReturnsTrueForEqualSparseVectors()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var originalVectorCopy = originalVector.ToArray();
             var sv1 = new SparseVector<double>(originalVector);
             var sv2 = new SparseVector<double>(originalVectorCopy);
@@ -151,7 +153,7 @@
         public void EqualsReturnsFalseForNullArgument()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var sv1 = new SparseVector<double>(originalVector);
             SparseVector<double> sv2 = null;
 
@@ -168,7 +170,7 @@
         public void EqualsReturnsFalseForDifferentTypeArgument()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var sv = new SparseVector<double>(originalVector);
 
             // act
@@ -182,7 +184,7 @@
         public void EqualsReturnsTrueForSameReferenceObjects()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var sv1 = new SparseVector<double>(originalVector);
             SparseVector<double> sv2 = sv1;
 
@@ -199,7 +201,7 @@
         public void GetHashCodeReturnsSameHashCodeForEqualSparseVectors()
         {
             // arrange
-            var originalVector = GenerateRandomVector(1000, 0.7);
+            var originalVector = SparseVectorHelper.GenerateRandomVector(1000, 0.7);
             var originalVectorCopy = originalVector.ToArray();
             var sv1 = new SparseVector<double>(originalVector);
             var sv2 = new SparseVector<double>(originalVectorCopy);
@@ -211,22 +213,5 @@
             // assert
             Assert.AreEqual(hc1, hc2);
         }
-
-        #region Helpers
-
-        private static Dictionary<int, double> GenerateRandomVector(int count, double zeroProbability)
-        {
-            var rnd = new Random();
-
-            return Enumerable.Range(0, count)
-                .Select(i => new
-                    {
-                        Index = i, 
-                        Value = rnd.NextDouble() < zeroProbability ? 0.0 : (double.Epsilon + rnd.NextDouble()) * (rnd.NextDouble() < 0.5 ? -1 : 1)
-                    })
-                .ToDictionary(arg => arg.Index, arg => arg.Value);
-        }
-
-        #endregion
     }
 }
