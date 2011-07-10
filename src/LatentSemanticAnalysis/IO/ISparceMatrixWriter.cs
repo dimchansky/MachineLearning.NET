@@ -12,6 +12,6 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
         long ElementsCount { get; }
 
         void Write<T>(IEnumerable<SparceVector<T>> rows)
-            where T : struct, IEquatable<T>;
+            where T : struct, IEquatable<T>, IFormattable;
     }
 }
