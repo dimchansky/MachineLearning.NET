@@ -57,7 +57,7 @@
                 sw.Flush();
                 long matrixStatsPosition = sw.BaseStream.Position;
                 // write empty space to be overwritten later                				
-                sw.WriteLine("{0,60}", ' ');
+                sw.WriteLine(new string(' ', 60));
 
                 this.RowsCount = 0;
                 this.ColumnsCount = 0;
