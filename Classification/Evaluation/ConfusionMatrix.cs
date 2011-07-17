@@ -65,23 +65,11 @@
 
         /// <summary>
         /// Gets the harmonic mean (F measure).
-        /// </summary>
-        /// <param name="beta">The beta.</param>
-        /// <returns></returns>
-        public double GetHarmonicMean()
-        {
-            double recall = this.GetRecall();
-            double precision = this.GetPrecision();
-            return 2.0 * precision * recall / (precision + recall);
-        }
-
-        /// <summary>
-        /// Gets the harmonic mean (F measure).
         /// Values of <paramref name="beta"/> &lt; 1 emphasize precision, whereas values of <paramref name="beta"/> &gt; 1 emphasize recall.
         /// </summary>
         /// <param name="beta">The beta.</param>
         /// <returns></returns>
-        public double GetHarmonicMean(double beta)
+        public double GetHarmonicMean(double beta = 1.0)
         {
             double recall = this.GetRecall();
             double precision = this.GetPrecision();

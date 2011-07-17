@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Evaluation\ConfusionMatrix.cs" />
     <Compile Include="IClassifier.cs" />
+    <Compile Include="ISupervisedClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup />

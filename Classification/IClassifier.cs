@@ -2,7 +2,7 @@
 {
     using System;
 
-    interface IClassifier<out TCategory, in TAttribute>
+    public interface IClassifier<out TCategory, in TAttribute>
         where TCategory : IEquatable<TCategory>
         where TAttribute : IEquatable<TAttribute>
     {
