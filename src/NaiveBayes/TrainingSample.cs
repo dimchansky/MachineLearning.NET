@@ -5,14 +5,14 @@
 
     public static class TrainingSample
     {
-        public static TrainingSample<TCategory, TAttributeKey> Create<TCategory, TAttributeKey>(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category)
+        public static TrainingSample<TCategory, TAttributeKey> Create<TCategory, TAttributeKey>(Attribute<TAttributeKey>[] attributes, TCategory category)
             where TCategory : IEquatable<TCategory>
             where TAttributeKey : IEquatable<TAttributeKey>
         {
             return new TrainingSample<TCategory, TAttributeKey>(attributes, category);
         }
 
-        public static TrainingSample<TCategory, TAttributeKey> Create<TCategory, TAttributeKey>(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category, int incrementCount)
+        public static TrainingSample<TCategory, TAttributeKey> Create<TCategory, TAttributeKey>(Attribute<TAttributeKey>[] attributes, TCategory category, int incrementCount)
             where TCategory : IEquatable<TCategory>
             where TAttributeKey : IEquatable<TAttributeKey>
         {
@@ -24,11 +24,11 @@
         where TCategory : IEquatable<TCategory>
         where TAttributeKey : IEquatable<TAttributeKey>
     {
-        private readonly IEnumerable<Attribute<TAttributeKey>> attributes;
+        private readonly Attribute<TAttributeKey>[] attributes;
         private readonly TCategory category;
         private readonly int incrementCount;
 
-        public IEnumerable<Attribute<TAttributeKey>> Attributes
+        public Attribute<TAttributeKey>[] Attributes
         {
             get { return this.attributes; }
         }
@@ -46,7 +46,7 @@
             }
         }
 
-        public TrainingSample(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category, int incrementCount = 1)
+        public TrainingSample(Attribute<TAttributeKey>[] attributes, TCategory category, int incrementCount = 1)
         {
             this.attributes = attributes;
             this.category = category;

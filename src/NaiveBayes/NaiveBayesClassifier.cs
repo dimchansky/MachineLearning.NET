@@ -50,7 +50,7 @@
             Train(trainingSample.Attributes, trainingSample.Category, trainingSample.IncrementCount);
         }
 
-        public void Train(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category, int incrementCount = 1)
+        public void Train(Attribute<TAttributeKey>[] attributes, TCategory category, int incrementCount = 1)
         {
             // add category to known concept set
             this.knownConceptSet.Add(category);
@@ -84,14 +84,14 @@
             this.totalSamples += incrementCount;
         }
 
-        public double GetProbability(TCategory category, IEnumerable<Attribute<TAttributeKey>> attributes)
+        public double GetProbability(TCategory category, Attribute<TAttributeKey>[] attributes)
         {
             return this.knownConceptSet.Contains(category)
                        ? GetProbability(attributes, category) * GetProbability(category) / GetProbability(attributes)
                        : 1.0 / (this.knownConceptSet.Count + 1.0);
         }
 
-        public double GetProbability(IEnumerable<Attribute<TAttributeKey>> attributes, TCategory category)
+        public double GetProbability(Attribute<TAttributeKey>[] attributes, TCategory category)
         {
             var probability = 1.0;
 
@@ -125,14 +125,14 @@
             return (double)catCount / this.totalSamples;
         }
 
-        public double GetProbability(IEnumerable<Attribute<TAttributeKey>> attributes)
+        public double GetProbability(Attribute<TAttributeKey>[] attributes)
         {
             var probability = this.knownConceptSet.Sum(category => GetProbability(attributes, category) * GetProbability(category));
 
             return probability == 0.0 ? 1.0 / this.totalSamples : probability;
         }
 
-        public TCategory Classify(IEnumerable<Attribute<TAttributeKey>> attributes)
+        public TCategory Classify(Attribute<TAttributeKey>[] attributes)
         {
             if (this.totalSamples == 0 || this.knownConceptSet.Count == 0)
             {
