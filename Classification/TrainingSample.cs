@@ -19,7 +19,7 @@ namespace MachineLearning.Classification
         }
     }
 
-    public class TrainingSample<TCategory, TAttribute>
+    public sealed class TrainingSample<TCategory, TAttribute>
         where TCategory : IEquatable<TCategory>
         where TAttribute : IEquatable<TAttribute>
 
