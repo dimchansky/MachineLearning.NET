@@ -122,7 +122,7 @@
             this.Train(category, attributes, count);
         }
 
-        public void Train(TCategory category, IEnumerable<TAttribute> attributes, int count)
+        public void Train(TCategory category, IEnumerable<TAttribute> attributes, int count = 1)
         {
             if (attributes == null)
             {
