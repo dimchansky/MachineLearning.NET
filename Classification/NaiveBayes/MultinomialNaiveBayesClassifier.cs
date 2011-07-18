@@ -78,12 +78,10 @@
                         attributeSamplesCount = 0L;
                     }
 
-                    double nominator = (double)attributeCount * 
-                        // using Laplace smoothing
-                        (attributeSamplesCount + 1L);
+                    double nominator = (attributeSamplesCount + 1L); // using Laplace smoothing                        
 
                     // updating score
-                    score += Math.Log(nominator/denominator);
+                    score += attributeCount * Math.Log(nominator / denominator);
                 }
                 
                 if (score <= bestScore)
