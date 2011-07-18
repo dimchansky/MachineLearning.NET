@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="Evaluation\BinaryClassifierEvaluator.cs" />
     <Compile Include="Evaluation\ConfusionMatrix.cs" />
+    <Compile Include="Evaluation\ReadonlyConfusionMatrix.cs" />
     <Compile Include="IClassifier.cs" />
     <Compile Include="IDataSet.cs" />
     <Compile Include="ISupervisedClassifier.cs" />

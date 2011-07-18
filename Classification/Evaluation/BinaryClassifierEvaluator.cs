@@ -9,7 +9,7 @@
         private readonly ConfusionMatrix confusionMatrix = new ConfusionMatrix();
         private readonly IClassifier<bool, TAttribute> classifier;
 
-        public ConfusionMatrix ConfusionMatrix
+        public ReadonlyConfusionMatrix ConfusionMatrix
         {
             get
             {
