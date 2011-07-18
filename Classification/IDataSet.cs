@@ -3,7 +3,7 @@
     using System;
     using System.Collections.Generic;
 
-    public interface IDataSet<TCategory, TAttribute> : IClassifier<TCategory, TAttribute>
+    public interface IDataSet<TCategory, TAttribute>
         where TCategory : IEquatable<TCategory> 
         where TAttribute : IEquatable<TAttribute>
     {
