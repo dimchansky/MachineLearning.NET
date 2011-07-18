@@ -46,6 +46,7 @@
     <Compile Include="IClassifier.cs" />
     <Compile Include="IDataSet.cs" />
     <Compile Include="ISupervisedClassifier.cs" />
+    <Compile Include="NaiveBayes\MultinomialNaiveBayesClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="TrainingSample.cs" />
   </ItemGroup>
