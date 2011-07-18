@@ -28,6 +28,11 @@
 
         public void UpdateEvaluation(IEnumerable<TrainingSample<bool, TAttribute>> testSamples)
         {
+            if (testSamples == null)
+            {
+                throw new ArgumentNullException("testSamples");
+            }
+
             foreach (var testSample in testSamples)
             {
                 UpdateEvaluation(testSample);
@@ -36,6 +41,11 @@
 
         public void UpdateEvaluation(TrainingSample<bool, TAttribute> testSample)
         {
+            if (testSample == null)
+            {
+                throw new ArgumentNullException("testSample");
+            }
+
             var predictedCategory = classifier.Classify(testSample.Attributes);
             var actualCategory = testSample.Category;
 
