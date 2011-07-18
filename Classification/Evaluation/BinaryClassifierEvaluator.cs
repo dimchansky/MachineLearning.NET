@@ -7,6 +7,7 @@
         where TAttribute : IEquatable<TAttribute>
     {
         private readonly ConfusionMatrix confusionMatrix = new ConfusionMatrix();
+
         private readonly IClassifier<bool, TAttribute> classifier;
 
         public ReadonlyConfusionMatrix ConfusionMatrix
@@ -46,30 +47,32 @@
                 throw new ArgumentNullException("testSample");
             }
 
-            var predictedCategory = classifier.Classify(testSample.Attributes);
-            var actualCategory = testSample.Category;
+            bool predictedCategory = this.classifier.Classify(testSample.Attributes);
+            bool actualCategory = testSample.Category;
 
             if (predictedCategory)
-            {   // positive predicted
+            {
+                // positive predicted
                 if (actualCategory)
                 {
-                    confusionMatrix.TruePositivesCount += testSample.Count;
+                    this.confusionMatrix.TruePositivesCount += testSample.Count;
                 }
                 else
                 {
-                    confusionMatrix.FalsePositivesCount += testSample.Count;
+                    this.confusionMatrix.FalsePositivesCount += testSample.Count;
                 }
             }
             else
-            {   // negative predicted
+            {
+                // negative predicted
                 if (actualCategory)
                 {
-                    confusionMatrix.FalseNegativesCount += testSample.Count;
+                    this.confusionMatrix.FalseNegativesCount += testSample.Count;
                 }
                 else
                 {
-                    confusionMatrix.TrueNegativesCount += testSample.Count;
-                }                
+                    this.confusionMatrix.TrueNegativesCount += testSample.Count;
+                }
             }
         }
     }

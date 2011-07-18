@@ -89,7 +89,8 @@ namespace MachineLearning.Classification.Evaluation
         public double GetAccuracy()
         {
             return ((double)this.TruePositivesCount + this.TrueNegativesCount) /
-                   ((double)this.TruePositivesCount + this.TrueNegativesCount + this.FalsePositivesCount + this.FalseNegativesCount);
+                   ((double)this.TruePositivesCount + this.TrueNegativesCount + this.FalsePositivesCount +
+                    this.FalseNegativesCount);
         }
 
         /// <summary>
