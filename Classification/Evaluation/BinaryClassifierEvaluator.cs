@@ -3,6 +3,24 @@
     using System;
     using System.Collections.Generic;
 
+    public static class BinaryClassifierEvaluator
+    {
+        public static BinaryClassifierEvaluator<TCategory, TAttribute> Create<TCategory, TAttribute>(
+            IClassifier<TCategory, TAttribute> classifier, Func<TCategory, bool> categorySelector)
+            where TCategory : IEquatable<TCategory> 
+            where TAttribute : IEquatable<TAttribute>
+        {
+            return new BinaryClassifierEvaluator<TCategory, TAttribute>(classifier, categorySelector);
+        }
+
+        public static BinaryClassifierEvaluator<bool, TAttribute> Create<TAttribute>(
+            IClassifier<bool, TAttribute> classifier)
+            where TAttribute : IEquatable<TAttribute>
+        {
+            return new BinaryClassifierEvaluator<bool, TAttribute>(classifier, b => b);
+        }
+    }
+
     public class BinaryClassifierEvaluator<TCategory, TAttribute>
         where TCategory : IEquatable<TCategory> 
         where TAttribute : IEquatable<TAttribute>
