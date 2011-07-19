@@ -3,12 +3,15 @@
     using System;
     using System.Collections.Generic;
 
-    public class BinaryClassifierEvaluator<TAttribute>
+    public class BinaryClassifierEvaluator<TCategory, TAttribute>
+        where TCategory : IEquatable<TCategory> 
         where TAttribute : IEquatable<TAttribute>
     {
         private readonly ConfusionMatrix confusionMatrix = new ConfusionMatrix();
 
-        private readonly IClassifier<bool, TAttribute> classifier;
+        private readonly IClassifier<TCategory, TAttribute> classifier;
+
+        private readonly Func<TCategory, bool> categorySelector;
 
         public ReadonlyConfusionMatrix ConfusionMatrix
         {
@@ -18,16 +21,21 @@
             }
         }
 
-        public BinaryClassifierEvaluator(IClassifier<bool, TAttribute> classifier)
+        public BinaryClassifierEvaluator(IClassifier<TCategory, TAttribute> classifier, Func<TCategory, bool> categorySelector)
         {
             if (classifier == null)
             {
                 throw new ArgumentNullException("classifier");
             }
+            if (categorySelector == null)
+            {
+                throw new ArgumentNullException("categorySelector");
+            }
             this.classifier = classifier;
+            this.categorySelector = categorySelector;
         }
 
-        public void UpdateEvaluation(IEnumerable<TrainingSample<bool, TAttribute>> testSamples)
+        public void UpdateEvaluation(IEnumerable<TrainingSample<TCategory, TAttribute>> testSamples)
         {
             if (testSamples == null)
             {
@@ -40,15 +48,15 @@
             }
         }
 
-        public void UpdateEvaluation(TrainingSample<bool, TAttribute> testSample)
+        public void UpdateEvaluation(TrainingSample<TCategory, TAttribute> testSample)
         {
             if (testSample == null)
             {
                 throw new ArgumentNullException("testSample");
             }
 
-            bool predictedCategory = this.classifier.Classify(testSample.Attributes);
-            bool actualCategory = testSample.Category;
+            bool predictedCategory = categorySelector(this.classifier.Classify(testSample.Attributes));
+            bool actualCategory = categorySelector(testSample.Category);
 
             if (predictedCategory)
             {
