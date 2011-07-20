@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NaiveBayes", "src\NaiveBayes\NaiveBayes.csproj", "{A839C478-9F12-4E43-8D51-99913D00014A}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification", "Classification\Classification.csproj", "{0864337F-A948-4470-8DBC-E576CB45BD9D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification", "src\Classification\Classification.csproj", "{0864337F-A948-4470-8DBC-E576CB45BD9D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
