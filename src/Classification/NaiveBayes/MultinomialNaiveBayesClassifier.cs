@@ -4,8 +4,19 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    public static class MultinomialNaiveBayesClassifier
+    {
+        public static ISupervisedClassifier<TCategory, TAttribute> Create<TCategory, TAttribute>(IDataSet<TCategory, TAttribute> trainingDataSet)
+            where TCategory : IEquatable<TCategory>
+            where TAttribute : IEquatable<TAttribute>
+        {
+            return new MultinomialNaiveBayesClassifier<TCategory, TAttribute>(trainingDataSet);
+        }
+    }
+
     public class MultinomialNaiveBayesClassifier<TCategory, TAttribute> : ISupervisedClassifier<TCategory, TAttribute>
-        where TCategory : IEquatable<TCategory> where TAttribute : IEquatable<TAttribute>
+        where TCategory : IEquatable<TCategory> 
+        where TAttribute : IEquatable<TAttribute>
     {
         #region Fields and properties
 
@@ -17,6 +28,19 @@
             new Dictionary<TCategory, Dictionary<TAttribute, long>>();
 
         private readonly HashSet<TAttribute> knownAttributes = new HashSet<TAttribute>();
+
+        #endregion
+
+        #region Constructors
+
+        public MultinomialNaiveBayesClassifier()
+        {
+        }
+
+        public MultinomialNaiveBayesClassifier(IDataSet<TCategory, TAttribute> trainingDataSet)
+        {
+            this.Train(trainingDataSet);
+        }
 
         #endregion
 

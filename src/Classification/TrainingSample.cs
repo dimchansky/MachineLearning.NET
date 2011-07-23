@@ -4,15 +4,15 @@ namespace MachineLearning.Classification
 
     public static class TrainingSample
     {
-        public static TrainingSample<TCategory, TAttribute> Create<TCategory, TAttribute>(
-            TAttribute[] attributes, TCategory category) where TCategory : IEquatable<TCategory>
+        public static TrainingSample<TCategory, TAttribute> Create<TCategory, TAttribute>(TCategory category, TAttribute[] attributes) 
+            where TCategory : IEquatable<TCategory>
             where TAttribute : IEquatable<TAttribute>
         {
             return new TrainingSample<TCategory, TAttribute>(category, attributes);
         }
 
-        public static TrainingSample<TCategory, TAttribute> Create<TCategory, TAttribute>(
-            TAttribute[] attributes, TCategory category, int count) where TCategory : IEquatable<TCategory>
+        public static TrainingSample<TCategory, TAttribute> Create<TCategory, TAttribute>
+            (TCategory category, TAttribute[] attributes, int count) where TCategory : IEquatable<TCategory>
             where TAttribute : IEquatable<TAttribute>
         {
             return new TrainingSample<TCategory, TAttribute>(category, attributes, count);
