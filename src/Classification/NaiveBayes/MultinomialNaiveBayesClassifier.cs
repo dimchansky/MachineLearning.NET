@@ -7,6 +7,8 @@
     public class MultinomialNaiveBayesClassifier<TCategory, TAttribute> : ISupervisedClassifier<TCategory, TAttribute>
         where TCategory : IEquatable<TCategory> where TAttribute : IEquatable<TAttribute>
     {
+        #region Fields and properties
+
         private long totalTrainingSamplesCount;
 
         private readonly Dictionary<TCategory, long> categorySamplesCount = new Dictionary<TCategory, long>();
@@ -15,6 +17,8 @@
             new Dictionary<TCategory, Dictionary<TAttribute, long>>();
 
         private readonly HashSet<TAttribute> knownAttributes = new HashSet<TAttribute>();
+
+        #endregion
 
         #region Implementation of ISupervisedClassifier<TCategory,TAttribute>
 
