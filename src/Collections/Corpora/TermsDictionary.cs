@@ -1,4 +1,4 @@
-﻿namespace MachineLearning.LatentSemanticAnalysis.Corpora
+﻿namespace MachineLearning.Collections.Corpora
 {
     using System;
     using System.Collections.Generic;

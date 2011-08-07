@@ -1,4 +1,4 @@
-namespace MachineLearning.LatentSemanticAnalysis.IO
+namespace MachineLearning.Collections.IO
 {
     internal static class MatrixMarketFormat
     {
