@@ -5,6 +5,7 @@
     using System.Linq;
 
     using MachineLearning.Collections;
+    using MachineLearning.Collections.Array;
 
     /// <summary>
     /// <see cref="TermsDictionary&lt;TTerm&gt;"/> encapsulates the mapping between terms (normalized words) and their integer ids.    

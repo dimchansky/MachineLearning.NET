@@ -6,6 +6,7 @@
     using System.IO;
 
     using MachineLearning.Collections;
+    using MachineLearning.Collections.Array;
 
     public class MatrixMarketWriter : IDisposable, ISparseMatrixWriter
     {

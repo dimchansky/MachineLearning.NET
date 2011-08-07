@@ -4,6 +4,7 @@ namespace MachineLearning.Collections.IO
     using System.Collections.Generic;
 
     using MachineLearning.Collections;
+    using MachineLearning.Collections.Array;
 
     public interface ISparseMatrixWriter
     {

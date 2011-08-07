@@ -1,4 +1,4 @@
-namespace MachineLearning.Collections
+namespace MachineLearning.Collections.Array
 {
     using System;
     using System.Collections;

@@ -5,6 +5,7 @@
     using System.Linq;
 
     using MachineLearning.Collections;
+    using MachineLearning.Collections.Array;
 
     static class SparseVectorHelper
     {

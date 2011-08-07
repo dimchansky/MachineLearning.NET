@@ -4,6 +4,7 @@
     using System.Collections.Generic;
 
     using MachineLearning.Collections;
+    using MachineLearning.Collections.Array;
 
     interface ISparseMatrixReader
     {
