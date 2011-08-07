@@ -1,10 +1,9 @@
-﻿namespace LatentSemanticAnalysis.Tests.Helpers
+﻿namespace Collections.Tests.Helpers
 {
     using System;
     using System.Collections.Generic;
     using System.Linq;
 
-    using MachineLearning.Collections;
     using MachineLearning.Collections.Array;
 
     static class SparseVectorHelper

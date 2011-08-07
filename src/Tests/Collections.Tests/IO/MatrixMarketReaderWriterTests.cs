@@ -1,11 +1,10 @@
-﻿namespace LatentSemanticAnalysis.Tests
+﻿namespace Collections.Tests.IO
 {
     using System.IO;
     using System.Linq;
 
-    using LatentSemanticAnalysis.Tests.Helpers;
+    using Collections.Tests.Helpers;
 
-    using MachineLearning.Collections;
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
 

@@ -1,6 +1,5 @@
-﻿namespace Collections.Tests
+﻿namespace Collections.Tests.Array
 {
-    using MachineLearning.Collections;
     using MachineLearning.Collections.Array;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
