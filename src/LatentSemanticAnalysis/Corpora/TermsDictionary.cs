@@ -4,6 +4,8 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using MachineLearning.Collections;
+
     /// <summary>
     /// <see cref="TermsDictionary&lt;TTerm&gt;"/> encapsulates the mapping between terms (normalized words) and their integer ids.    
     /// </summary>

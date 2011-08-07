@@ -1,12 +1,11 @@
-﻿namespace LatentSemanticAnalysis.Tests
+﻿namespace Collections.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Linq;
 
     using LatentSemanticAnalysis.Tests.Helpers;
 
-    using MachineLearning.LatentSemanticAnalysis;
+    using MachineLearning.Collections;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 

@@ -1,4 +1,4 @@
-﻿namespace MachineLearning.LatentSemanticAnalysis
+namespace MachineLearning.Collections
 {
     using System;
     using System.Collections;

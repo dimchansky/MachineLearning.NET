@@ -6,6 +6,8 @@
     using System.IO;
     using System.Linq;
 
+    using MachineLearning.Collections;
+
     public class MatrixMarketReader : IDisposable, ISparseMatrixReader
     {
         #region Fields and Properties

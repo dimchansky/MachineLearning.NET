@@ -3,6 +3,8 @@ namespace MachineLearning.LatentSemanticAnalysis.IO
     using System;
     using System.Collections.Generic;
 
+    using MachineLearning.Collections;
+
     public interface ISparseMatrixWriter
     {
         int RowsCount { get; }

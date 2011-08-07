@@ -47,8 +47,13 @@
     <Compile Include="Parsing\IParser.cs" />
     <Compile Include="Parsing\IStemmer.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SparseVector.cs" />
     <Compile Include="Corpora\TermsDictionary.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Collections\Collections.csproj">
+      <Project>{6A1285B1-FD12-4D65-9768-8613BCAA5C27}</Project>
+      <Name>Collections</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

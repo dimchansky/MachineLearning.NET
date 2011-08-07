@@ -5,7 +5,7 @@
 
     using LatentSemanticAnalysis.Tests.Helpers;
 
-    using MachineLearning.LatentSemanticAnalysis;
+    using MachineLearning.Collections;
     using MachineLearning.LatentSemanticAnalysis.IO;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;

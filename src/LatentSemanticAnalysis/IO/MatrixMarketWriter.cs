@@ -5,6 +5,8 @@
     using System.Globalization;
     using System.IO;
 
+    using MachineLearning.Collections;
+
     public class MatrixMarketWriter : IDisposable, ISparseMatrixWriter
     {
         #region Fields and Properties
