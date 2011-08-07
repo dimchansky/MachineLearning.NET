@@ -40,6 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Corpora\TermsDictionary.cs" />
+    <Compile Include="IO\ISparseMatrixReader.cs" />
+    <Compile Include="IO\ISparseMatrixWriter.cs" />
+    <Compile Include="IO\MatrixMarketFormat.cs" />
+    <Compile Include="IO\MatrixMarketReader.cs" />
+    <Compile Include="IO\MatrixMarketWriter.cs" />
     <Compile Include="MemoryMappedArray.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SparseVector.cs" />
