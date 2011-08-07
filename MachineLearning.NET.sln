@@ -13,6 +13,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{63C2AB60
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LatentSemanticAnalysis.Tests", "src\Tests\LatentSemanticAnalysis.Tests\LatentSemanticAnalysis.Tests.csproj", "{9417CC46-D818-44B8-9790-E127139A0F90}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections", "src\Collections\Collections.csproj", "{6A1285B1-FD12-4D65-9768-8613BCAA5C27}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -39,12 +41,16 @@ Global
 		{9417CC46-D818-44B8-9790-E127139A0F90}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9417CC46-D818-44B8-9790-E127139A0F90}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9417CC46-D818-44B8-9790-E127139A0F90}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6A1285B1-FD12-4D65-9768-8613BCAA5C27}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6A1285B1-FD12-4D65-9768-8613BCAA5C27}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6A1285B1-FD12-4D65-9768-8613BCAA5C27}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6A1285B1-FD12-4D65-9768-8613BCAA5C27}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{9417CC46-D818-44B8-9790-E127139A0F90} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 		{BC982154-38D3-4808-97F8-9707BD9FB4E0} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
+		{9417CC46-D818-44B8-9790-E127139A0F90} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 	EndGlobalSection
 EndGlobal
