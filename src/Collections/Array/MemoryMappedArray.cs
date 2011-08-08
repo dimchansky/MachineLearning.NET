@@ -1,6 +1,7 @@
 namespace MachineLearning.Collections.Array
 {
     using System;
+    using System.IO;
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
 
@@ -105,11 +106,115 @@ namespace MachineLearning.Collections.Array
 
             this.size0 = size0;
             this.size1 = size1;
-            this.count = (long)size0 * size1;
+            this.count = checked((long)size0 * size1);
             this.sizeOfT = Marshal.SizeOf(typeof(T));
-            var bytes = count * this.sizeOfT;
+            var bytes = checked(count * this.sizeOfT);
             this.memoryMappedFile = MemoryMappedFile.CreateNew(null, bytes);
+            // create accessor for data
             this.accessor = this.memoryMappedFile.CreateViewAccessor(0L, bytes);
+        }
+
+        private MemoryMappedArray(string filename, int length) : this(filename, 1, length)
+        {            
+        }
+
+        private MemoryMappedArray(string filename, int size0, int size1)
+        {
+            if (size0 <= 0)
+            {
+                throw new ArgumentOutOfRangeException("size0");
+            }
+            if (size1 <= 0)
+            {
+                throw new ArgumentOutOfRangeException("size1");
+            }
+
+            this.size0 = size0;
+            this.size1 = size1;
+            this.count = checked((long)size0 * size1);
+            this.sizeOfT = Marshal.SizeOf(typeof(T));
+            var headerSizeInBytes = Marshal.SizeOf(typeof(Header));
+            var fileSizeInBytes = checked(count * this.sizeOfT + headerSizeInBytes);
+            // create mapped file
+            this.memoryMappedFile = MemoryMappedFile.CreateFromFile(
+                new FileStream(filename, FileMode.CreateNew), 
+                null, 
+                fileSizeInBytes, 
+                MemoryMappedFileAccess.ReadWrite, 
+                null, 
+                HandleInheritability.None, 
+                false);
+            // write header
+            using (var headerAccessor = this.memoryMappedFile.CreateViewAccessor(0L, headerSizeInBytes))
+            {
+                var header = new Header
+                    {
+                        TypeCode = Type.GetTypeCode(typeof(T)), 
+                        Size0 = size0, 
+                        Size1 = size1
+                    };
+                headerAccessor.Write(0L, ref header);
+            }
+            // create accessor for data
+            this.accessor = this.memoryMappedFile.CreateViewAccessor(headerSizeInBytes, fileSizeInBytes - headerSizeInBytes);
+        }
+
+        private MemoryMappedArray(string filename)
+        {
+            var headerSizeInBytes = Marshal.SizeOf(typeof(Header));
+            var fileSizeInBytes = new FileInfo(filename).Length;
+            if (fileSizeInBytes < headerSizeInBytes)
+            {
+                throw new FormatException("File size is smaller than header size.");
+            }
+
+            this.memoryMappedFile = MemoryMappedFile.CreateFromFile(filename, FileMode.Open, null, fileSizeInBytes);
+
+            // read header
+            using (var headerAccessor = this.memoryMappedFile.CreateViewAccessor(0L, headerSizeInBytes))
+            {
+                Header header;
+                headerAccessor.Read(0L, out header);
+
+                this.size0 = header.Size0;
+                this.size1 = header.Size1;
+                this.count = checked((long)this.size0 * this.size1);
+                this.sizeOfT = Marshal.SizeOf(typeof(T));
+            }
+
+            // check parameters
+            if (this.size0 <= 0)
+            {
+                this.memoryMappedFile.Dispose();
+                throw new FormatException("size0 is not positive.");
+            }
+
+            if (this.size1 <= 0)
+            {
+                this.memoryMappedFile.Dispose();
+                throw new FormatException("size1 is not positive.");
+            }
+            // create accessor for data
+            this.accessor = this.memoryMappedFile.CreateViewAccessor(headerSizeInBytes, fileSizeInBytes - headerSizeInBytes);
+        }
+
+        #endregion
+
+        #region Public Methods
+
+        public static MemoryMappedArray<T> CreateNew(string filename, int length)
+        {
+            return new MemoryMappedArray<T>(filename, length);
+        }
+
+        public static MemoryMappedArray<T> CreateNew(string filename, int size0, int size1)
+        {
+            return new MemoryMappedArray<T>(filename, size0, size1);
+        }
+
+        public static MemoryMappedArray<T> Open(string filename)
+        {
+            return new MemoryMappedArray<T>(filename);
         }
 
         #endregion
@@ -155,5 +260,15 @@ namespace MachineLearning.Collections.Array
         }
 
         #endregion
+    }
+
+    [StructLayout(LayoutKind.Sequential, Pack = 1)]
+    internal struct Header
+    {
+        public TypeCode TypeCode;
+
+        public int Size0;
+
+        public int Size1;
     }
 }
