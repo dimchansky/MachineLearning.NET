@@ -7,9 +7,14 @@ namespace MachineLearning.Collections.Array
     public class MemoryMappedArray<T> : IDisposable
         where T : struct
     {
+        #region Properties and Fields
+
         private readonly int size0;
+
         private readonly int size1;
+
         private readonly long count;
+
         private readonly int sizeOfT;
 
         private readonly MemoryMappedFile memoryMappedFile;
@@ -56,7 +61,7 @@ namespace MachineLearning.Collections.Array
             get
             {
                 var offset = this.GetRowColumnOffset(rowIndex, columnIndex);
-                
+
                 T result;
                 accessor.Read(offset, out result);
 
@@ -78,7 +83,12 @@ namespace MachineLearning.Collections.Array
             }
         }
 
-        public MemoryMappedArray(int length) : this(1, length)
+        #endregion
+
+        #region Constructors
+
+        public MemoryMappedArray(int length)
+            : this(1, length)
         {
         }
 
@@ -101,6 +111,8 @@ namespace MachineLearning.Collections.Array
             this.memoryMappedFile = MemoryMappedFile.CreateNew(null, bytes);
             this.accessor = this.memoryMappedFile.CreateViewAccessor(0L, bytes);
         }
+
+        #endregion
 
         #region Implementation of IDisposable
 
