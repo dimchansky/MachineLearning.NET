@@ -40,6 +40,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Array\IArray.cs" />
+    <Compile Include="Array\IArrayBase.cs" />
+    <Compile Include="Array\TransposedArray.cs" />
     <Compile Include="Corpora\TermsDictionary.cs" />
     <Compile Include="IO\ISparseMatrixReader.cs" />
     <Compile Include="IO\ISparseMatrixWriter.cs" />

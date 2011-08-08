@@ -5,7 +5,7 @@ namespace MachineLearning.Collections.Array
     using System.IO.MemoryMappedFiles;
     using System.Runtime.InteropServices;
 
-    public class MemoryMappedArray<T> : IDisposable
+    public class MemoryMappedArray<T> : IDisposable, IArray<T>
         where T : struct
     {
         #region Properties and Fields
@@ -14,13 +14,17 @@ namespace MachineLearning.Collections.Array
 
         private readonly int size1;
 
-        private readonly long count;
+        private readonly long numElements;
 
         private readonly int sizeOfT;
 
         private readonly MemoryMappedFile memoryMappedFile;
 
         private readonly MemoryMappedViewAccessor accessor;
+
+        #endregion
+
+        #region Implementation of IArrayBase
 
         public int Size0
         {
@@ -37,6 +41,18 @@ namespace MachineLearning.Collections.Array
                 return this.size1;
             }
         }
+
+        public long NumElements
+        {
+            get
+            {
+                return this.numElements;
+            }
+        }
+
+        #endregion
+
+        #region Implementation of IArray<T>
 
         public T this[int index]
         {
@@ -57,11 +73,11 @@ namespace MachineLearning.Collections.Array
             }
         }
 
-        public T this[int rowIndex, int columnIndex]
+        public T this[int index0, int index1]
         {
             get
             {
-                var offset = this.GetRowColumnOffset(rowIndex, columnIndex);
+                var offset = this.GetOffset(index0, index1);
 
                 T result;
                 accessor.Read(offset, out result);
@@ -70,18 +86,15 @@ namespace MachineLearning.Collections.Array
             }
             set
             {
-                var offset = this.GetRowColumnOffset(rowIndex, columnIndex);
+                var offset = this.GetOffset(index0, index1);
 
                 accessor.Write(offset, ref value);
             }
         }
 
-        public long Count
+        public IArray<T> Transpose()
         {
-            get
-            {
-                return this.count;
-            }
+            return new TransposedArray<T>(this);
         }
 
         #endregion
@@ -106,9 +119,9 @@ namespace MachineLearning.Collections.Array
 
             this.size0 = size0;
             this.size1 = size1;
-            this.count = checked((long)size0 * size1);
+            this.numElements = checked((long)size0 * size1);
             this.sizeOfT = Marshal.SizeOf(typeof(T));
-            var bytes = checked(count * this.sizeOfT);
+            var bytes = checked(this.numElements * this.sizeOfT);
             this.memoryMappedFile = MemoryMappedFile.CreateNew(null, bytes);
             // create accessor for data
             this.accessor = this.memoryMappedFile.CreateViewAccessor(0L, bytes);
@@ -131,10 +144,10 @@ namespace MachineLearning.Collections.Array
 
             this.size0 = size0;
             this.size1 = size1;
-            this.count = checked((long)size0 * size1);
+            this.numElements = checked((long)size0 * size1);
             this.sizeOfT = Marshal.SizeOf(typeof(T));
             var headerSizeInBytes = Marshal.SizeOf(typeof(Header));
-            var fileSizeInBytes = checked(count * this.sizeOfT + headerSizeInBytes);
+            var fileSizeInBytes = checked(this.numElements * this.sizeOfT + headerSizeInBytes);
             // create mapped file
             this.memoryMappedFile = MemoryMappedFile.CreateFromFile(
                 new FileStream(filename, FileMode.CreateNew), 
@@ -178,7 +191,7 @@ namespace MachineLearning.Collections.Array
 
                 this.size0 = header.Size0;
                 this.size1 = header.Size1;
-                this.count = checked((long)this.size0 * this.size1);
+                this.numElements = checked((long)this.size0 * this.size1);
                 this.sizeOfT = Marshal.SizeOf(typeof(T));
             }
 
@@ -231,19 +244,19 @@ namespace MachineLearning.Collections.Array
 
         #region Helpers
 
-        private long GetRowColumnOffset(int rowIndex, int columnIndex)
+        private long GetOffset(int index0, int index1)
         {
-            if (rowIndex < 0 || rowIndex >= this.size0)
+            if (index0 < 0 || index0 >= this.size0)
             {
                 throw new ArgumentOutOfRangeException(
-                    "rowIndex", "Specified argument was out of the range of valid values.");
+                    "index0", "Specified argument was out of the range of valid values.");
             }
-            if (columnIndex < 0 || columnIndex >= this.size1)
+            if (index1 < 0 || index1 >= this.size1)
             {
                 throw new ArgumentOutOfRangeException(
-                    "columnIndex", "Specified argument was out of the range of valid values.");
+                    "index1", "Specified argument was out of the range of valid values.");
             }
-            return ((long)rowIndex * size1 + columnIndex) * sizeOfT;
+            return ((long)index0 * size1 + index1) * sizeOfT;
         }
 
         private long GetOffset(int index)
@@ -252,7 +265,7 @@ namespace MachineLearning.Collections.Array
             {
                 throw new InvalidOperationException("The number of slices/indices must equal the number of array dimensions.");
             }
-            if (index < 0 || index >= count)
+            if (index < 0 || index >= this.numElements)
             {
                 throw new ArgumentOutOfRangeException("index");
             }
