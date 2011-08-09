@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
@@ -75,7 +76,7 @@
                     using (var hd = new MemoryMappedArray<double>(maxFeaturesCount, cc))
                     {
                         // w.T
-                        var wt = w.Transpose();
+                        var wT = w.Transpose();
 
                         // hn = w.T * A
                         var aRow = 0;
@@ -84,7 +85,7 @@
                             // multiply column (aRow) from w.T by row (aRow) from A (sparse vector)
                             for (int i = 0; i < maxFeaturesCount; i++)
                             {
-                                var multiplicationFactor = wt[i, aRow];
+                                var multiplicationFactor = wT[i, aRow];
                                 foreach (var pair in sparseVector)
                                 {
                                     hn[i, pair.Key] += multiplicationFactor * pair.Value;
@@ -100,7 +101,7 @@
                             for (int j = i; j < maxFeaturesCount; j++)
                             {
                                 // compute wTw[i,j] as dot product of row i in wT by column j in w
-                                var v = GetMultiplicationElement(wt, w, i, j);
+                                var v = GetMultiplicationElement(wT, w, i, j);
                                 wTw[i, j] = v;
 
                                 // optimization: copy result to wTw[j,i] (left bottom)
@@ -119,13 +120,72 @@
                                 hd[i, j] = GetMultiplicationElement(wTw, h, i, j);
                             }
                         }
+
+                        // update h = h .* hn ./ hd
+                        for (int i = 0; i < maxFeaturesCount; i++)
+                        {
+                            for (int j = 0; j < cc; j++)
+                            {
+                                h[i, j] = h[i, j] * hn[i, j] / hd[i, j];
+                            }
+                        }
                     }
 
                     // Update weights matrix
+                    using (var wn = new MemoryMappedArray<double>(rc, maxFeaturesCount))
+                    using (var hhT = new MemoryMappedArray<double>(maxFeaturesCount, maxFeaturesCount))
+                    using (var wd = new MemoryMappedArray<double>(rc, maxFeaturesCount))
+                    {
+                        // h.T
+                        var hT = h.Transpose();
 
-                    // TODO: implement
+                        // wn = A * h.T
+                        var aRow = 0;
+                        foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                        {                                                                                   
+                            for (int hTColumn = 0; hTColumn < maxFeaturesCount; hTColumn++)
+                            {
+                                wn[aRow, hTColumn] = sparseVector.Sum(pair => pair.Value * hT[pair.Key, hTColumn]);
+                            }                            
+                            ++aRow;
+                        }
 
-                    throw new NotImplementedException();
+                        // hhT = h * h.T - symmetric array
+                        for (int i = 0; i < maxFeaturesCount; i++)
+                        {
+                            // optimization: compute right upper half array only
+                            for (int j = i; j < maxFeaturesCount; j++)
+                            {
+                                // compute hhT[i,j] as dot product of row i in h by column j in hT
+                                var v = GetMultiplicationElement(h, hT, i, j);
+                                hhT[i, j] = v;
+
+                                // optimization: copy result to hhT[j,i] (left bottom)
+                                if (i != j)
+                                {
+                                    hhT[j, i] = v;
+                                }
+                            }
+                        }
+
+                        // wd = w * (h * h.T)
+                        for (int i = 0; i < rc; i++)
+                        {
+                            for (int j = 0; j < maxFeaturesCount; j++)
+                            {
+                                wd[i, j] = GetMultiplicationElement(w, hhT, i, j);
+                            }
+                        }
+
+                        // update w = w .* wn ./ wd
+                        for (int i = 0; i < rc; i++)
+                        {
+                            for (int j = 0; j < maxFeaturesCount; j++)
+                            {
+                                w[i, j] = w[i, j] * wn[i, j] / wd[i, j];
+                            }
+                        }
+                    }
                 }
             }
             catch (Exception)
