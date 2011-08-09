@@ -19,10 +19,9 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Collections.Tests", "src\Te
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonnegativeMatrixFactorization", "src\NonnegativeMatrixFactorization\NonnegativeMatrixFactorization.csproj", "{CDA7B180-C24E-4D3A-8819-5865E896110F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NonnegativeMatrixFactorization.Tests", "src\Tests\NonnegativeMatrixFactorization.Tests\NonnegativeMatrixFactorization.Tests.csproj", "{6739A869-64A6-4A87-ABF5-5F202EC421E6}"
+EndProject
 Global
-	GlobalSection(TestCaseManagementSettings) = postSolution
-		CategoryFile = MachineLearning.NET.vsmdi
-	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -60,6 +59,10 @@ Global
 		{CDA7B180-C24E-4D3A-8819-5865E896110F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CDA7B180-C24E-4D3A-8819-5865E896110F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CDA7B180-C24E-4D3A-8819-5865E896110F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6739A869-64A6-4A87-ABF5-5F202EC421E6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6739A869-64A6-4A87-ABF5-5F202EC421E6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6739A869-64A6-4A87-ABF5-5F202EC421E6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6739A869-64A6-4A87-ABF5-5F202EC421E6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -68,5 +71,6 @@ Global
 		{BC982154-38D3-4808-97F8-9707BD9FB4E0} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 		{9417CC46-D818-44B8-9790-E127139A0F90} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 		{B30BFB99-15B5-4182-8ABE-26B0547A62E8} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
+		{6739A869-64A6-4A87-ABF5-5F202EC421E6} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 	EndGlobalSection
 EndGlobal

@@ -34,10 +34,11 @@
 
             var rc = sparseMatrixReader.RowsCount;
             var cc = sparseMatrixReader.ColumnsCount;
-            maxFeaturesCount = Math.Min(maxFeaturesCount, Math.Min(rc, cc));
 
             var w = new MemoryMappedArray<double>(rc, maxFeaturesCount);
             var h = new MemoryMappedArray<double>(maxFeaturesCount, cc);
+
+            double euclideanDistance = 0.0;
 
             try
             {
@@ -49,7 +50,7 @@
                 for (int iteration = 0; iteration < maxIterations; iteration++)
                 {
                     // Calculate current difference cost
-                    var diffCost = 0.0;
+                    euclideanDistance = 0.0;
                     var row = 0;
                     foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
                     {
@@ -58,14 +59,14 @@
                         foreach (var element in ToDenseVector(sparseVector, cc))
                         {
                             var diff = element - GetMultiplicationElement(w, h, row, column++);
-                            diffCost += diff * diff;
+                            euclideanDistance += diff * diff;
                         }
 
                         ++row;
                     }                   
 
                     // Terminate if the matrix has been fully factorized
-                    if (diffCost <= double.Epsilon)
+                    if (euclideanDistance <= double.Epsilon)
                     {
                         break;
                     }
@@ -202,7 +203,7 @@
                 throw;
             }
 
-            return new NMFactorization(w, h);
+            return new NMFactorization(w, h, euclideanDistance);
         }
 
         #region Helpers
