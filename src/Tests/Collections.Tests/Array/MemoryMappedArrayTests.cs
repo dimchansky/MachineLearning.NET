@@ -72,6 +72,19 @@
         }
 
         [TestMethod]
+        public void OneDimensionConstructorCreateArrayInitializedWithDefaultValue()
+        {
+            const int length = 10000;
+            using (var array = new MemoryMappedArray<double>(length))
+            {
+                for (int i = 0; i < length; i++)
+                {
+                    Assert.AreEqual(0, array[i]);
+                }
+            }
+        }
+
+        [TestMethod]
         public void TwoDimensionIndexedPropertyWorksCorrectly()
         {
             const int size0 = 500;
@@ -92,6 +105,23 @@
                     {
                         double v = (double)i * size1 + j;
                         Assert.AreEqual(v, array[i, j]);
+                    }
+                }
+            }
+        }
+
+        [TestMethod]
+        public void TwoDimensionConstructorCreateArrayInitializedWithDefaultValue()
+        {
+            const int size0 = 500;
+            const int size1 = 20;
+            using (var array = new MemoryMappedArray<double>(size0, size1))
+            {
+                for (int i = 0; i < size0; i++)
+                {
+                    for (int j = 0; j < size1; j++)
+                    {
+                        Assert.AreEqual(0, array[i, j]);
                     }
                 }
             }
