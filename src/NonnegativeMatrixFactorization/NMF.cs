@@ -19,7 +19,7 @@
             this.sparseMatrixReader = sparseMatrixReader;
         }
 
-        public NMFactorization Factorize(int maxFeaturesCount = 10, int maxIterations = 50)
+        public NMFactorization Factorize(int maxFeaturesCount = 10, int maxIterations = 20)
         {
             if (maxFeaturesCount <= 0)
             {
@@ -70,6 +70,56 @@
                     }
 
                     // Update feature matrix
+                    using (var hn = new MemoryMappedArray<double>(maxFeaturesCount, cc))
+                    using (var wTw = new MemoryMappedArray<double>(maxFeaturesCount, maxFeaturesCount))
+                    using (var hd = new MemoryMappedArray<double>(maxFeaturesCount, cc))
+                    {
+                        // w.T
+                        var wt = w.Transpose();
+
+                        // hn = w.T * A
+                        var aRow = 0;
+                        foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                        {
+                            // multiply column (aRow) from w.T by row (aRow) from A (sparse vector)
+                            for (int i = 0; i < maxFeaturesCount; i++)
+                            {
+                                var multiplicationFactor = wt[i, aRow];
+                                foreach (var pair in sparseVector)
+                                {
+                                    hn[i, pair.Key] += multiplicationFactor * pair.Value;
+                                }
+                            }
+                            ++aRow;
+                        }
+
+                        // wTw = w.T * w - is symmetric array
+                        for (int i = 0; i < maxFeaturesCount; i++)
+                        {
+                            // optimization: compute right upper half array only
+                            for (int j = i; j < maxFeaturesCount; j++)
+                            {
+                                // compute wTw[i,j] as dot product of row i in wT by column j in w
+                                var v = GetMultiplicationElement(wt, w, i, j);
+                                wTw[i, j] = v;
+
+                                // optimization: copy result to wTw[j,i] (left bottom)
+                                if (i != j)
+                                {
+                                    wTw[j, i] = v;
+                                }
+                            }
+                        }
+
+                        // hd = (w.T * w) * h
+                        for (int i = 0; i < maxFeaturesCount; i++)
+                        {
+                            for (int j = 0; j < cc; j++)
+                            {
+                                hd[i, j] = GetMultiplicationElement(wTw, h, i, j);
+                            }
+                        }
+                    }
 
                     // Update weights matrix
 
@@ -97,9 +147,22 @@
 
         #region Helpers
 
-        private static double GetMultiplicationElement(MemoryMappedArray<double> w, MemoryMappedArray<double> h, int row, int column)
+        private static double GetMultiplicationElement(IArray<double> a, IArray<double> b, int row, int column)
         {
-            throw new NotImplementedException();
+            var n = a.Size1;
+
+            if(n != b.Size0)
+            {
+                throw new ArgumentException("Cannot multiply arrays.");
+            }
+
+            var result = 0.0;
+            for (int i = 0; i < n; i++)
+            {
+                result += a[row,i] * b[i, column];
+            }
+
+            return result;
         }
 
         static IEnumerable<T> ToDenseVector<T>(IEnumerable<KeyValuePair<int, T>> sparseVector, int denseVectorLength) 
