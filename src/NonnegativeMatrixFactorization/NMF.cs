@@ -1,6 +1,7 @@
 ﻿namespace MachineLearning.NonnegativeMatrixFactorization
 {
     using System;
+    using System.Collections.Generic;
 
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
@@ -47,8 +48,26 @@
                 for (int iteration = 0; iteration < maxIterations; iteration++)
                 {
                     // Calculate current difference cost
+                    var diffCost = 0.0;
+                    var row = 0;
+                    foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                    {
+                        var column = 0;
+
+                        foreach (var element in ToDenseVector(sparseVector, cc))
+                        {
+                            var diff = element - GetMultiplicationElement(w, h, row, column++);
+                            diffCost += diff * diff;
+                        }
+
+                        ++row;
+                    }                   
 
                     // Terminate if the matrix has been fully factorized
+                    if (diffCost <= double.Epsilon)
+                    {
+                        break;
+                    }
 
                     // Update feature matrix
 
@@ -77,6 +96,38 @@
         }
 
         #region Helpers
+
+        private static double GetMultiplicationElement(MemoryMappedArray<double> w, MemoryMappedArray<double> h, int row, int column)
+        {
+            throw new NotImplementedException();
+        }
+
+        static IEnumerable<T> ToDenseVector<T>(IEnumerable<KeyValuePair<int, T>> sparseVector, int denseVectorLength) 
+            where T : struct, IEquatable<T>
+        {
+            var i = 0;
+            foreach (var pair in sparseVector)
+            {
+                while (i < pair.Key && i < denseVectorLength)
+                {
+                    yield return default(T);
+                    i++;
+                }
+
+                if (i < denseVectorLength)
+                {
+                    yield return pair.Value;
+                    i++;
+                }
+            }
+
+            // the rest
+            while (i < denseVectorLength)
+            {
+                yield return default(T);
+                i++;
+            }
+        }
 
         private static void FillRandom(IArray<double> array)
         {
