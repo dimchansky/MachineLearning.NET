@@ -33,7 +33,7 @@
             int columnsWrited;
             long elementsWrited;
             using (var stream = new MemoryStream())
-            using (var writer = new MatrixMarketWriter(stream))
+            using (var writer = new MatrixMarketWriter<double>(stream))
             {
                 writer.Write(originalVectors);
                 stream.Flush();
@@ -50,12 +50,12 @@
             int columnsToRead;
             long elementToRead;
             using (var stream = new MemoryStream(memory, false))
-            using (var reader = new MatrixMarketReader(stream))
+            using (var reader = new MatrixMarketReader<double>(stream))
             {
                 rowsToRead = reader.RowsCount;
                 columnsToRead = reader.ColumnsCount;
                 elementToRead = reader.ElementsCount;
-                readedVectors = reader.ReadRows<double>().ToArray();
+                readedVectors = reader.ReadRows().ToArray();
             }
 
             string text;

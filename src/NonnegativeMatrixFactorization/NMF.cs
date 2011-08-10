@@ -9,9 +9,9 @@
 
     public class NMF
     {
-        private readonly ISparseMatrixReader sparseMatrixReader;
+        private readonly ISparseMatrixReader<double> sparseMatrixReader;
 
-        public NMF(ISparseMatrixReader sparseMatrixReader)
+        public NMF(ISparseMatrixReader<double> sparseMatrixReader)
         {
             if (sparseMatrixReader == null)
             {
@@ -52,7 +52,7 @@
                     // Calculate current difference cost
                     euclideanDistance = 0.0;
                     var row = 0;
-                    foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                    foreach (var sparseVector in sparseMatrixReader.ReadRows())
                     {
                         var column = 0;
 
@@ -81,7 +81,7 @@
 
                         // hn = w.T * A
                         var aRow = 0;
-                        foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                        foreach (var sparseVector in sparseMatrixReader.ReadRows())
                         {
                             // multiply column (aRow) from w.T by row (aRow) from A (sparse vector)
                             for (int i = 0; i < maxFeaturesCount; i++)
@@ -142,7 +142,7 @@
 
                         // wn = A * h.T
                         var aRow = 0;
-                        foreach (var sparseVector in sparseMatrixReader.ReadRows<double>())
+                        foreach (var sparseVector in sparseMatrixReader.ReadRows())
                         {                                                                                   
                             for (int hTColumn = 0; hTColumn < maxFeaturesCount; hTColumn++)
                             {

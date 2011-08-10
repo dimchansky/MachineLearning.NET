@@ -51,12 +51,12 @@
             }
         }
 
-        private ISparseMatrixReader FromVectors(params SparseVector<double>[] rows)
+        private ISparseMatrixReader<double> FromVectors(params SparseVector<double>[] rows)
         {
             return new InMemorySparseMatrix(rows);
         }
 
-        class InMemorySparseMatrix : ISparseMatrixReader
+        class InMemorySparseMatrix : ISparseMatrixReader<double>
         {
             private readonly SparseVector<double>[] rows;
 
@@ -102,14 +102,9 @@
                 }
             }
 
-            public IEnumerable<SparseVector<T>> ReadRows<T>() where T : struct, IEquatable<T>
+            public IEnumerable<SparseVector<double>> ReadRows() 
             {
-                if(typeof(T) != typeof(double))
-                {
-                    throw new NotSupportedException();
-                }
-
-                return (IEnumerable<SparseVector<T>>)(object)rows;
+                return rows;
             }
 
             #endregion

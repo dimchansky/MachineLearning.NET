@@ -7,7 +7,8 @@
 
     using MachineLearning.Collections.Array;
 
-    public class MatrixMarketWriter : IDisposable, ISparseMatrixWriter
+    public class MatrixMarketWriter<T> : IDisposable, ISparseMatrixWriter<T>
+        where T : struct, IEquatable<T>, IFormattable
     {
         #region Fields and Properties
 
@@ -37,7 +38,7 @@
 
         #endregion
 
-        #region Implementation of ISparseMatrixWriter
+        #region Implementation of ISparseMatrixWriter<T>
 
         public int RowsCount { get; private set; }
 
@@ -45,7 +46,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public void Write<T>(IEnumerable<SparseVector<T>> rows) where T : struct, IEquatable<T>, IFormattable
+        public void Write(IEnumerable<SparseVector<T>> rows)
         {
             if (this.stream == null)
             {

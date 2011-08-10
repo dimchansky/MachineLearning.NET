@@ -8,9 +8,13 @@
 
     using MachineLearning.Collections.Array;
 
-    public class MatrixMarketReader : IDisposable, ISparseMatrixReader
+    public class MatrixMarketReader<T> : IDisposable, ISparseMatrixReader<T>
+        where T : struct, IEquatable<T>
     {
         #region Fields and Properties
+        
+        // create line parser
+        private readonly MatrixLineParser<T> lineParser = new MatrixLineParser<T>();
 
         private StreamReader streamReader;
 
@@ -59,7 +63,7 @@
 
         #endregion
 
-        #region Implementation of ISparseMatrixReader
+        #region Implementation of ISparseMatrixReader<T>
 
         public int RowsCount { get; private set; }
 
@@ -67,7 +71,7 @@
 
         public long ElementsCount { get; private set; }
 
-        public IEnumerable<SparseVector<T>> ReadRows<T>() where T : struct, IEquatable<T>
+        public IEnumerable<SparseVector<T>> ReadRows()
         {
             if (this.streamReader == null)
             {
@@ -76,9 +80,6 @@
             
             // seek to matrix start position
             this.streamReader.BaseStream.Seek(matrixStartPosition, SeekOrigin.Begin);
-
-            // create line parser
-            var lineParser = new MatrixLineParser<T>();
 
             var totalElementsCount = 0L;
             var currentRowIdx = -1L;

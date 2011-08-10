@@ -5,7 +5,8 @@ namespace MachineLearning.Collections.IO
 
     using MachineLearning.Collections.Array;
 
-    public interface ISparseMatrixWriter
+    public interface ISparseMatrixWriter<T>
+        where T : struct, IEquatable<T>, IFormattable
     {
         int RowsCount { get; }
 
@@ -13,7 +14,6 @@ namespace MachineLearning.Collections.IO
 
         long ElementsCount { get; }
 
-        void Write<T>(IEnumerable<SparseVector<T>> rows)
-            where T : struct, IEquatable<T>, IFormattable;
+        void Write(IEnumerable<SparseVector<T>> rows);
     }
 }

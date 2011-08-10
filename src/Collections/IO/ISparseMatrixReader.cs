@@ -5,7 +5,8 @@
 
     using MachineLearning.Collections.Array;
 
-    public interface ISparseMatrixReader
+    public interface ISparseMatrixReader<T>
+        where T : struct, IEquatable<T>
     {
         int RowsCount { get; }
 
@@ -13,7 +14,6 @@
 
         long ElementsCount { get; }
 
-        IEnumerable<SparseVector<T>> ReadRows<T>()
-            where T : struct, IEquatable<T>;
+        IEnumerable<SparseVector<T>> ReadRows();
     }
 }
