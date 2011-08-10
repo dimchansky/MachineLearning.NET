@@ -45,6 +45,7 @@
     </CodeAnalysisDependentAssemblyPaths>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Helpers\EnumerableEx.cs" />
     <Compile Include="Helpers\SparseVectorHelper.cs" />
     <Compile Include="IO\CachedMatrixMarketReaderTests.cs" />
     <Compile Include="IO\MatrixMarketReaderWriterTests.cs" />

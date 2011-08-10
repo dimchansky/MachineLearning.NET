@@ -2,21 +2,22 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using MachineLearning.Collections.Array;
 
-    public class CachedMatrixMarketReader<T> : ISparseMatrixReader<T>, IDisposable
+    public sealed class CachedMatrixMarketReader<T> : ISparseMatrixReader<T>, IDisposable
         where T : struct, IEquatable<T>
     {
         #region Fields and Properties
 
         private readonly ISparseMatrixReader<T> reader;
 
-        private int rowsCount;
+        private readonly int rowsCount;
 
-        private int columnsCount;
+        private readonly int columnsCount;
 
-        private long elementsCount;
+        private readonly long elementsCount;
 
         #endregion
 
@@ -65,7 +66,7 @@
 
         public IEnumerable<SparseVector<T>> ReadRows()
         {
-            throw new NotImplementedException();
+            return Enumerable.Empty<SparseVector<T>>();
         }
 
         #endregion
@@ -74,7 +75,6 @@
 
         public void Dispose()
         {
-            throw new NotImplementedException();
         }
 
         #endregion

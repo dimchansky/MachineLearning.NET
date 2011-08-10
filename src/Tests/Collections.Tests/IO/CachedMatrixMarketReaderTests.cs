@@ -65,7 +65,7 @@
             using(var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
             {
                 // act
-                var firstScanResults = originalReader.ReadRows().Zip(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
+                var firstScanResults = originalReader.ReadRows().ZipFull(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
 
                 // assert
                 Assert.IsTrue(firstScanResults);
@@ -87,8 +87,8 @@
                 // act
                 foreach (var row in cachedReader.ReadRows())
                 {                    
-                }                
-                var secondScanResults = originalReader.ReadRows().Zip(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
+                }
+                var secondScanResults = originalReader.ReadRows().ZipFull(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
 
                 // assert
                 Assert.IsTrue(secondScanResults);
@@ -187,6 +187,5 @@
         }
 
         #endregion
-
     }
 }
