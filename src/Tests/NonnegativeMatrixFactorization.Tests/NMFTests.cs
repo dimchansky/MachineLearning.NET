@@ -1,15 +1,14 @@
 ﻿namespace NonnegativeMatrixFactorization.Tests
 {
     using System;
-    using System.Collections.Generic;
     using System.Diagnostics;
-    using System.Linq;
 
     using MachineLearning.Collections.Array;
-    using MachineLearning.Collections.IO;
     using MachineLearning.NonnegativeMatrixFactorization;
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
+
+    using TestHelpers;
 
     [TestClass]
     public class NMFTests
@@ -18,8 +17,9 @@
         public void FactorizeTestMethod1()
         {
             // arrange
-            var reader = FromVectors(new SparseVector<double>{{0, 22.0},{1, 28.0}},
-                                     new SparseVector<double>{{0, 49.0},{1, 64.0}});
+            var reader = new InMemorySparseMatrixReader(
+                new SparseVector<double> { { 0, 22.0 }, { 1, 28.0 } },
+                new SparseVector<double> { { 0, 49.0 }, { 1, 64.0 } });
             var nmf = new NMF(reader);
             
             // act
@@ -51,64 +51,6 @@
             }
         }
 
-        private ISparseMatrixReader<double> FromVectors(params SparseVector<double>[] rows)
-        {
-            return new InMemorySparseMatrix(rows);
-        }
-
-        class InMemorySparseMatrix : ISparseMatrixReader<double>
-        {
-            private readonly SparseVector<double>[] rows;
-
-            private readonly int columnsCount;
-
-            private readonly int elementsCount;
-
-            public InMemorySparseMatrix(SparseVector<double>[] rows)
-            {
-                if (rows == null)
-                {
-                    throw new ArgumentNullException("rows");
-                }
-                this.rows = rows;
-
-                columnsCount = (from r in rows from e in r select e.Key).Max() + 1;
-                elementsCount = (from r in rows select r.NonZeroValuesCount).Sum();
-            }
-
-            #region Implementation of ISparseMatrixReader
-
-            public int RowsCount
-            {
-                get
-                {
-                    return rows.Length;
-                }
-            }
-
-            public int ColumnsCount
-            {
-                get
-                {
-                    return columnsCount;
-                }
-            }
-
-            public long ElementsCount
-            {
-                get
-                {
-                    return elementsCount;
-                }
-            }
-
-            public IEnumerable<SparseVector<double>> ReadRows() 
-            {
-                return rows;
-            }
-
-            #endregion
-        }
         #endregion
     }
 }

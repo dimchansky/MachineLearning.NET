@@ -12,6 +12,12 @@
 
         private readonly ISparseMatrixReader<T> reader;
 
+        private int rowsCount;
+
+        private int columnsCount;
+
+        private long elementsCount;
+
         #endregion
 
         #region Constructors
@@ -24,6 +30,9 @@
             }
 
             this.reader = reader;
+            this.rowsCount = reader.RowsCount;
+            this.columnsCount = reader.ColumnsCount;
+            this.elementsCount = reader.ElementsCount;
         }
 
         #endregion
@@ -34,7 +43,7 @@
         {
             get
             {
-                throw new NotImplementedException();
+                return this.rowsCount;
             }
         }
 
@@ -42,7 +51,7 @@
         {
             get
             {
-                throw new NotImplementedException();
+                return this.columnsCount;
             }
         }
 
@@ -50,7 +59,7 @@
         {
             get
             {
-                throw new NotImplementedException();
+                return this.elementsCount;
             }
         }
 
