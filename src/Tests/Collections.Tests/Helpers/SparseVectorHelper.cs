@@ -30,5 +30,10 @@
         {
             return (x - x1) / (x2 - x1) * (y2 - y1) + y1;
         }
+
+        public static IEnumerable<SparseVector<double>> GenerateSparceVectors(int rows, int columns, double zeroProbability)
+        {
+            return Enumerable.Range(0, rows).Select(i => GenerateRandomSparseVector(columns, zeroProbability));
+        }
     }
 }

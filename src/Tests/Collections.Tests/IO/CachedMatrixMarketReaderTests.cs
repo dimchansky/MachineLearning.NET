@@ -59,10 +59,7 @@
             const int rows = 100;
             const int columns = 100;
             const double zeroProbability = 0.99;
-            var originalVectors = Enumerable
-                .Range(0, rows)
-                .Select(i => SparseVectorHelper.GenerateRandomSparseVector(columns, zeroProbability))
-                .ToArray();
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
             var originalReader = new InMemorySparseMatrixReader(originalVectors);
             
             using(var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
@@ -82,10 +79,7 @@
             const int rows = 100;
             const int columns = 100;
             const double zeroProbability = 0.99;
-            var originalVectors = Enumerable
-                .Range(0, rows)
-                .Select(i => SparseVectorHelper.GenerateRandomSparseVector(columns, zeroProbability))
-                .ToArray();
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
             var originalReader = new InMemorySparseMatrixReader(originalVectors);
 
             using (var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
@@ -108,10 +102,7 @@
             const int rows = 100;
             const int columns = 100;
             const double zeroProbability = 0.99;
-            var originalVectors = Enumerable
-                .Range(0, rows)
-                .Select(i => SparseVectorHelper.GenerateRandomSparseVector(columns, zeroProbability))
-                .ToArray();
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
             var originalReader = new InMemorySparseMatrixReader(originalVectors);
             var originalReaderWithCounters = new SparseMatrixReaderWithMemberInvocationCounters<double>(originalReader);
 
