@@ -191,14 +191,8 @@
             }
             catch (Exception)
             {
-                if (w != null)
-                {
-                    w.Dispose();
-                }
-                if (h != null)
-                {
-                    h.Dispose();
-                }
+                w.Dispose();
+                h.Dispose();
 
                 throw;
             }
