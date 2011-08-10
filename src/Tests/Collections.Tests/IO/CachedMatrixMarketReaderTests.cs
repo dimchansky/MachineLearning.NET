@@ -113,7 +113,7 @@
                 .Select(i => SparseVectorHelper.GenerateRandomSparseVector(columns, zeroProbability))
                 .ToArray();
             var originalReader = new InMemorySparseMatrixReader(originalVectors);
-            var originalReaderWithCounters = new SparseMatrixReaderWithMemberInvocationCounters(originalReader);
+            var originalReaderWithCounters = new SparseMatrixReaderWithMemberInvocationCounters<double>(originalReader);
 
             using (var cachedReader = new CachedMatrixMarketReader<double>(originalReaderWithCounters))
             {
@@ -135,9 +135,10 @@
 
         #region Helpers
 
-        private class SparseMatrixReaderWithMemberInvocationCounters : ISparseMatrixReader<double>
+        private class SparseMatrixReaderWithMemberInvocationCounters<T> : ISparseMatrixReader<T>
+            where T : struct, IEquatable<T>
         {
-            private readonly ISparseMatrixReader<double> reader;
+            private readonly ISparseMatrixReader<T> reader;
 
             public int RowsCountInvocations { get; private set; }
 
@@ -147,7 +148,7 @@
 
             public int ReadRowsInvocations { get; private set; }
 
-            public SparseMatrixReaderWithMemberInvocationCounters(ISparseMatrixReader<double> reader)
+            public SparseMatrixReaderWithMemberInvocationCounters(ISparseMatrixReader<T> reader)
             {
                 if (reader == null)
                 {
@@ -185,7 +186,7 @@
                 }
             }
 
-            public IEnumerable<SparseVector<double>> ReadRows()
+            public IEnumerable<SparseVector<T>> ReadRows()
             {
                 this.ReadRowsInvocations++;
                 return reader.ReadRows();
