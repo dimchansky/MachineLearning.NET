@@ -4,7 +4,6 @@
     using System.Collections.Generic;
     using System.Linq;
 
-    using MachineLearning.Collections;
     using MachineLearning.Collections.Array;
 
     /// <summary>

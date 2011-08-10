@@ -6,7 +6,6 @@
     using System.IO;
     using System.Linq;
 
-    using MachineLearning.Collections;
     using MachineLearning.Collections.Array;
 
     public class MatrixMarketReader : IDisposable, ISparseMatrixReader
