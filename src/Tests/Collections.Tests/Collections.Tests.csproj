@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Helpers\SparseVectorHelper.cs" />
+    <Compile Include="IO\CachedMatrixMarketReaderTests.cs" />
     <Compile Include="IO\MatrixMarketReaderWriterTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Array\MemoryMappedArrayTests.cs" />
