@@ -2,7 +2,6 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using MachineLearning.Collections.Array;
 
@@ -66,7 +65,8 @@
 
         public IEnumerable<SparseVector<T>> ReadRows()
         {
-            return Enumerable.Empty<SparseVector<T>>();
+            TODO: implement
+            throw new NotImplementedException();
         }
 
         #endregion
@@ -75,6 +75,8 @@
 
         public void Dispose()
         {
+            TODO: implement
+            throw new NotImplementedException();
         }
 
         #endregion
