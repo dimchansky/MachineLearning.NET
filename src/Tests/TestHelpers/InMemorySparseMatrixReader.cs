@@ -24,7 +24,7 @@ namespace TestHelpers
             this.rows = rows;
 
             this.columnsCount = (from r in rows from e in r select e.Key).Max() + 1;
-            this.elementsCount = Enumerable.Sum((IEnumerable<int>)(from r in rows select r.NonZeroValuesCount));
+            this.elementsCount = (from r in rows select r.NonZeroValuesCount).Sum();
         }
 
         #region Implementation of ISparseMatrixReader
