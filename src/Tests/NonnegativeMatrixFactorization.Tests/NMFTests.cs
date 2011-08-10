@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Diagnostics;
     using System.Linq;
 
     using MachineLearning.Collections.Array;
@@ -21,13 +22,17 @@
                                      new SparseVector<double>{{0, 49.0},{1, 64.0}});
             var nmf = new NMF(reader);
             
-            // act            
-            using (var factorization = nmf.Factorize(1, 10000))
+            // act
+            var sw = Stopwatch.StartNew();
+            using (var factorization = nmf.Factorize(2, 100))
             {
+                sw.Stop();
+
                 // assert
-                Print("H", factorization.W);
-                Print("W", factorization.H);
+                Print("W", factorization.W);
+                Print("H", factorization.H);
                 Console.WriteLine("Factorization Euclidean distance: " + factorization.EuclideanDistance);
+                Console.WriteLine("Time: " + sw.ElapsedMilliseconds + " ms.");
             }
         }
 
