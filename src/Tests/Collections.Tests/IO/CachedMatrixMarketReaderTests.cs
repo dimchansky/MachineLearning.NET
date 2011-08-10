@@ -53,6 +53,24 @@
         }
 
         [TestMethod]
+        public void InitializedCachedMatrixMarketReaderReturnsTheSamePropertiesValuesForEmptyRowsArray()
+        {
+            // arrange
+            var reader = new InMemorySparseMatrixReader();
+
+            using (var cachedReader = new CachedMatrixMarketReader<double>(reader))
+            {
+                // act            
+
+                // assert
+                Assert.AreEqual(reader.ColumnsCount, cachedReader.ColumnsCount);
+                Assert.AreEqual(reader.RowsCount, cachedReader.RowsCount);
+                Assert.AreEqual(reader.ElementsCount, cachedReader.ElementsCount);
+            }
+
+        }
+
+        [TestMethod]
         public void ReadRowsReturnSameVectorsInFirstScan()
         {
             // arrange
@@ -63,6 +81,26 @@
             var originalReader = new InMemorySparseMatrixReader(originalVectors);
             
             using(var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
+            {
+                // act
+                var firstScanResults = originalReader.ReadRows().ZipFull(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
+
+                // assert
+                Assert.IsTrue(firstScanResults);
+            }
+        }
+
+        [TestMethod]
+        public void ReadRowsReturnSameVectorsInFirstScanForEmptyRowsArray()
+        {
+            // arrange
+            const int rows = 0;
+            const int columns = 0;
+            const double zeroProbability = 0.99;
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
+            var originalReader = new InMemorySparseMatrixReader(originalVectors);
+
+            using (var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
             {
                 // act
                 var firstScanResults = originalReader.ReadRows().ZipFull(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
@@ -96,6 +134,29 @@
         }
 
         [TestMethod]
+        public void ReadRowsReturnSameVectorsInSecondScanForEmptyRowsArray()
+        {
+            // arrange
+            const int rows = 0;
+            const int columns = 0;
+            const double zeroProbability = 0.99;
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
+            var originalReader = new InMemorySparseMatrixReader(originalVectors);
+
+            using (var cachedReader = new CachedMatrixMarketReader<double>(originalReader))
+            {
+                // act
+                foreach (var row in cachedReader.ReadRows())
+                {
+                }
+                var secondScanResults = originalReader.ReadRows().ZipFull(cachedReader.ReadRows(), (originalVector, cachedVector) => originalVector == cachedVector).All(b => b);
+
+                // assert
+                Assert.IsTrue(secondScanResults);
+            }
+        }
+
+        [TestMethod]
         public void ReadRowsInSecondScanDoNotUseOriginalReader()
         {
             // arrange
@@ -115,6 +176,35 @@
                 foreach (var row in cachedReader.ReadRows())
                 {
                 }                
+
+                // assert
+                Assert.AreEqual(1, originalReaderWithCounters.ColumnsCountInvocations);
+                Assert.AreEqual(1, originalReaderWithCounters.RowsCountInvocations);
+                Assert.AreEqual(1, originalReaderWithCounters.ElementsCountInvocations);
+                Assert.AreEqual(1, originalReaderWithCounters.ReadRowsInvocations);
+            }
+        }
+
+        [TestMethod]
+        public void ReadRowsInSecondScanDoNotUseOriginalReaderForEmptyRowsArray()
+        {
+            // arrange
+            const int rows = 0;
+            const int columns = 0;
+            const double zeroProbability = 0.99;
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
+            var originalReader = new InMemorySparseMatrixReader(originalVectors);
+            var originalReaderWithCounters = new SparseMatrixReaderWithMemberInvocationCounters<double>(originalReader);
+
+            using (var cachedReader = new CachedMatrixMarketReader<double>(originalReaderWithCounters))
+            {
+                // act
+                foreach (var row in cachedReader.ReadRows())
+                {
+                }
+                foreach (var row in cachedReader.ReadRows())
+                {
+                }
 
                 // assert
                 Assert.AreEqual(1, originalReaderWithCounters.ColumnsCountInvocations);

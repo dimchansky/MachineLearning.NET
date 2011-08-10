@@ -23,8 +23,22 @@ namespace TestHelpers
             }
             this.rows = rows;
 
-            this.columnsCount = (from r in rows from e in r select e.Key).Max() + 1;
-            this.elementsCount = (from r in rows select r.NonZeroValuesCount).Sum();
+            var cc = 0;
+            var ec = 0;
+            foreach (var row in rows)
+            {
+                ec += row.NonZeroValuesCount;
+                foreach (var pair in row)
+                {
+                    if(pair.Key >= cc)
+                    {
+                        cc = pair.Key + 1;
+                    }
+                }
+            }
+
+            this.columnsCount = cc;
+            this.elementsCount = ec;
         }
 
         #region Implementation of ISparseMatrixReader
