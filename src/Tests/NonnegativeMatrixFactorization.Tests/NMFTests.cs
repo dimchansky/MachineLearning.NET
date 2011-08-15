@@ -18,8 +18,9 @@
         {
             // arrange
             var reader = new InMemorySparseMatrixReader(
-                new SparseVector<double> { { 0, 22.0 }, { 1, 28.0 } },
-                new SparseVector<double> { { 0, 49.0 }, { 1, 64.0 } });
+                new SparseVector<double> { { 1, 85.18 }, { 2, 11.52 } },
+                new SparseVector<double> { { 1, 37.99 }, { 2, 74.95 } },
+                new SparseVector<double> ());
             var nmf = new NMF(reader);
             
             // act

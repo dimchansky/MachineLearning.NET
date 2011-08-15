@@ -42,6 +42,7 @@
   <ItemGroup>
     <Compile Include="InMemorySparseMatrixReader.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="SparseVectorHelper.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\Collections\Collections.csproj">

@@ -10,6 +10,8 @@
 
     using Microsoft.VisualStudio.TestTools.UnitTesting;
 
+    using TestHelpers;
+
     [TestClass]
     public class MatrixMarketReaderWriterTests
     {
