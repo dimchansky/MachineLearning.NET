@@ -127,7 +127,12 @@
                         {
                             for (int j = 0; j < cc; j++)
                             {
-                                h[i, j] = h[i, j] * hn[i, j] / hd[i, j];
+                                var nom = hn[i, j];
+                                var den = hd[i, j];
+                                if (nom != den)
+                                {
+                                    h[i, j] = h[i, j] * nom / den;
+                                }
                             }
                         }
                     }
@@ -183,7 +188,12 @@
                         {
                             for (int j = 0; j < maxFeaturesCount; j++)
                             {
-                                w[i, j] = w[i, j] * wn[i, j] / wd[i, j];
+                                var nom = wn[i, j];
+                                var den = wd[i, j];
+                                if (nom != den)
+                                {
+                                    w[i, j] = w[i, j] * nom / den;
+                                }
                             }
                         }
                     }
