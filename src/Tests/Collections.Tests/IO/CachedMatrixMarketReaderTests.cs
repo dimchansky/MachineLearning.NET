@@ -186,6 +186,35 @@
         }
 
         [TestMethod]
+        public void ReadRowsInSecondScanUseOriginalReaderIfFirstScanWasNotFull()
+        {
+            // arrange
+            const int rows = 100;
+            const int columns = 100;
+            const double zeroProbability = 0.99;
+            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
+            var originalReader = new InMemorySparseMatrixReader(originalVectors);
+            var originalReaderWithCounters = new SparseMatrixReaderWithMemberInvocationCounters<double>(originalReader);
+
+            using (var cachedReader = new CachedMatrixMarketReader<double>(originalReaderWithCounters))
+            {
+                // act
+                foreach (var row in cachedReader.ReadRows().Take(1))
+                {
+                }
+                foreach (var row in cachedReader.ReadRows())
+                {
+                }
+
+                // assert
+                Assert.AreEqual(1, originalReaderWithCounters.ColumnsCountInvocations);
+                Assert.AreEqual(1, originalReaderWithCounters.RowsCountInvocations);
+                Assert.AreEqual(1, originalReaderWithCounters.ElementsCountInvocations);
+                Assert.AreEqual(2, originalReaderWithCounters.ReadRowsInvocations);
+            }
+        }
+
+        [TestMethod]
         public void ReadRowsInSecondScanDoNotUseOriginalReaderForEmptyRowsArray()
         {
             // arrange
