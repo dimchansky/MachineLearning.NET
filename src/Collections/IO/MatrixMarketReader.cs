@@ -18,8 +18,6 @@
 
         private StreamReader streamReader;
 
-        private readonly long matrixStartPosition;
-
         #endregion
 
         #region Constructors
@@ -49,16 +47,7 @@
             }
 
             // parse rows/columns/elements counts line
-            ParseRowsColumnsElementsCounts(GetLines(this.streamReader)
-                .SkipWhile(line =>
-                    { 
-                        var trimmedLine = line.Trim();
-                        return trimmedLine == string.Empty || trimmedLine.StartsWith("%");
-                    })
-                .FirstOrDefault());
-            
-            // save matrix start position
-            matrixStartPosition = this.streamReader.BaseStream.Position;
+            ParseRowsColumnsElementsCounts(this.SkippedEmptyAndCommentsLines(this.streamReader).FirstOrDefault());
         }
 
         #endregion
@@ -79,9 +68,14 @@
             }
             
             // seek to matrix start position
-            this.streamReader.BaseStream.Seek(matrixStartPosition, SeekOrigin.Begin);
+            this.streamReader.BaseStream.Seek(0L, SeekOrigin.Begin);
+            this.streamReader.DiscardBufferedData();
 
-            var parsedMatrixElements = (from line in GetLines(this.streamReader)
+            // skip header
+            var header = this.streamReader.ReadLine();
+
+            // skip stats
+            var parsedMatrixElements = (from line in SkippedEmptyAndCommentsLines(this.streamReader).Skip(1) // skip stats line
                                         let trimmedLine = line.Trim()
                                         where trimmedLine != string.Empty && !trimmedLine.StartsWith("%")
                                         select lineParser.ParseLine(trimmedLine));
@@ -130,6 +124,16 @@
             RowsCount = parsedLine.Row;
             ColumnsCount = parsedLine.Column;
             ElementsCount = parsedLine.Value;
+        }
+
+        private IEnumerable<string> SkippedEmptyAndCommentsLines(TextReader reader)
+        {
+            return GetLines(reader)
+                .SkipWhile(line =>
+                    { 
+                        var trimmedLine = line.Trim();
+                        return trimmedLine == string.Empty || trimmedLine.StartsWith("%");
+                    });
         }
 
         private static IEnumerable<string> GetLines(TextReader streamReader)
