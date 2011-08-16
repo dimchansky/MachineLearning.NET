@@ -2,7 +2,6 @@ namespace TestHelpers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
 
     using MachineLearning.Collections.Array;
 
@@ -10,20 +9,40 @@ namespace TestHelpers
     {
         private static readonly Random Rnd = new Random();
 
-        public static Dictionary<int, double> GenerateRandomVector(int count, double zeroProbability, bool onlyPositiveValues = false)
+        public static IDictionary<int, double> GenerateRandomVector(int count, double zeroProbability, bool onlyPositiveValues = false)
         {
-            return Enumerable.Range(0, count)
-                .Select(i => new
-                    {
-                        Index = i,
-                        Value = Rnd.NextDouble() < zeroProbability ? 0.0 : Math.Round(IntervalToInterval(Rnd.NextDouble(), 0, 1, 0.01, 100) * (onlyPositiveValues || Rnd.NextDouble() < 0.5 ? 1 : -1), 2, MidpointRounding.AwayFromZero)
-                    })
-                .ToDictionary(arg => arg.Index, arg => arg.Value);
+            var dictionary = new Dictionary<int, double>(count);
+
+            for (int i = 0; i < count; i++)
+            {
+                dictionary[i] = Rnd.NextDouble() < zeroProbability
+                                ? 0.0
+                                : Math.Round(
+                                    IntervalToInterval(Rnd.NextDouble(), 0, 1, 0.01, 100) *
+                                    (onlyPositiveValues || Rnd.NextDouble() < 0.5 ? 1 : -1),
+                                    2,
+                                    MidpointRounding.AwayFromZero);
+            }
+
+            return dictionary;
         }
 
         public static SparseVector<double> GenerateRandomSparseVector(int count, double zeroProbability, bool onlyPositiveValues = false)
         {
-            return new SparseVector<double>(GenerateRandomVector(count, zeroProbability, onlyPositiveValues));
+            var vector = new SparseVector<double>();
+
+            for (int i = 0; i < count; i++)
+            {
+                vector[i] = Rnd.NextDouble() < zeroProbability
+                                ? 0.0
+                                : Math.Round(
+                                    IntervalToInterval(Rnd.NextDouble(), 0, 1, 0.01, 100) *
+                                    (onlyPositiveValues || Rnd.NextDouble() < 0.5 ? 1 : -1),
+                                    2,
+                                    MidpointRounding.AwayFromZero);
+            }
+
+            return vector;
         }
 
         private static double IntervalToInterval(double x, double x1, double x2, double y1, double y2)
@@ -33,7 +52,10 @@ namespace TestHelpers
 
         public static IEnumerable<SparseVector<double>> GenerateSparceVectors(int rows, int columns, double zeroProbability, bool onlyPositiveValues = false)
         {
-            return Enumerable.Range(0, rows).Select(i => GenerateRandomSparseVector(columns, zeroProbability, onlyPositiveValues));
+            for (int i = 0; i < rows; i++)
+            {
+                yield return GenerateRandomSparseVector(columns, zeroProbability, onlyPositiveValues);
+            }
         }
     }
 }

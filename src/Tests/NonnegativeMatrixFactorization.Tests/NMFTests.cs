@@ -25,14 +25,14 @@
             
             // act
             var sw = Stopwatch.StartNew();
-            using (var factorization = nmf.Factorize(2, 100))
+            using (var factorization = nmf.Factorize(2, 1000))
             {
                 sw.Stop();
 
                 // assert
                 Print("W", factorization.W);
                 Print("H", factorization.H);
-                Console.WriteLine("Factorization Euclidean distance: " + factorization.EuclideanDistance);
+                Console.WriteLine("Factorization Euclidean distance: " + nmf.GetEuclideanDistance(factorization));
                 Console.WriteLine("Time: " + sw.ElapsedMilliseconds + " ms.");
             }
         }

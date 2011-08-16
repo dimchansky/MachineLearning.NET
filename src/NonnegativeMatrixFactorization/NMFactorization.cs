@@ -8,7 +8,6 @@ namespace MachineLearning.NonnegativeMatrixFactorization
     {
         private readonly MemoryMappedArray<double> w;
         private readonly MemoryMappedArray<double> h;
-        private readonly double euclideanDistance;
 
         /// <summary>
         /// Gets the weights matrix.
@@ -34,19 +33,7 @@ namespace MachineLearning.NonnegativeMatrixFactorization
             }
         }
 
-        /// <summary>
-        /// Gets the Euclidean distance of factorization.
-        /// </summary>
-        /// <value>The Euclidean distance of factorization.</value>
-        public double EuclideanDistance
-        {
-            get
-            {
-                return this.euclideanDistance;
-            }
-        }
-
-        public NMFactorization(MemoryMappedArray<double> w, MemoryMappedArray<double> h, double euclideanDistance)
+        public NMFactorization(MemoryMappedArray<double> w, MemoryMappedArray<double> h)
         {
             if (w == null)
             {
@@ -58,7 +45,6 @@ namespace MachineLearning.NonnegativeMatrixFactorization
             }
             this.w = w;
             this.h = h;
-            this.euclideanDistance = euclideanDistance;
         }
 
         #region Implementation of IDisposable
