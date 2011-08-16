@@ -70,15 +70,16 @@
                         // hn = w.T * A
                         foreach (var rowIdxSparseVector in GetNumberedRows(sparseMatrixReader.ReadRows()))
                         {
+                            var localRowIdxSparseVector = rowIdxSparseVector;
                             // multiply column (aRow) from w.T by row (aRow) from A (sparse vector)
-                            for (int i = 0; i < maxFeaturesCount; i++)
-                            {
-                                var multiplicationFactor = wT[i, rowIdxSparseVector.Key];
-                                foreach (var pair in rowIdxSparseVector.Value)
+                            Parallel.For(0, maxFeaturesCount, i =>                            
                                 {
-                                    hn[i, pair.Key] += multiplicationFactor * pair.Value;
-                                }
-                            }
+                                    var multiplicationFactor = wT[i, localRowIdxSparseVector.Key];
+                                    foreach (var pair in localRowIdxSparseVector.Value)
+                                    {
+                                        hn[i, pair.Key] += multiplicationFactor * pair.Value;
+                                    }
+                                });
                         }
 
                         // wTw = w.T * w - is symmetric array
@@ -134,10 +135,12 @@
                         // wn = A * h.T
                         foreach (var rowIdxSparseVector in GetNumberedRows(sparseMatrixReader.ReadRows()))
                         {
-                            for (int hTColumn = 0; hTColumn < maxFeaturesCount; hTColumn++)
-                            {
-                                wn[rowIdxSparseVector.Key, hTColumn] = rowIdxSparseVector.Value.Sum(pair => pair.Value * hT[pair.Key, hTColumn]);
-                            } 
+                            var localRowIdxSparseVector = rowIdxSparseVector;
+
+                            Parallel.For(0, maxFeaturesCount, hTColumn =>                            
+                                {
+                                    wn[localRowIdxSparseVector.Key, hTColumn] = localRowIdxSparseVector.Value.Sum(pair => pair.Value * hT[pair.Key, hTColumn]);
+                                });
                         }
 
                         // hhT = h * h.T - symmetric array
