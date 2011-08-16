@@ -68,19 +68,17 @@
                         var wT = w.Transpose();
 
                         // hn = w.T * A
-                        var aRow = 0;
-                        foreach (var sparseVector in sparseMatrixReader.ReadRows())
+                        foreach (var rowIdxSparseVector in GetNumberedRows(sparseMatrixReader.ReadRows()))
                         {
                             // multiply column (aRow) from w.T by row (aRow) from A (sparse vector)
                             for (int i = 0; i < maxFeaturesCount; i++)
                             {
-                                var multiplicationFactor = wT[i, aRow];
-                                foreach (var pair in sparseVector)
+                                var multiplicationFactor = wT[i, rowIdxSparseVector.Key];
+                                foreach (var pair in rowIdxSparseVector.Value)
                                 {
                                     hn[i, pair.Key] += multiplicationFactor * pair.Value;
                                 }
                             }
-                            ++aRow;
                         }
 
                         // wTw = w.T * w - is symmetric array
@@ -134,14 +132,12 @@
                         var hT = h.Transpose();
 
                         // wn = A * h.T
-                        var aRow = 0;
-                        foreach (var sparseVector in sparseMatrixReader.ReadRows())
-                        {                                                                                   
+                        foreach (var rowIdxSparseVector in GetNumberedRows(sparseMatrixReader.ReadRows()))
+                        {
                             for (int hTColumn = 0; hTColumn < maxFeaturesCount; hTColumn++)
                             {
-                                wn[aRow, hTColumn] = sparseVector.Sum(pair => pair.Value * hT[pair.Key, hTColumn]);
-                            }                            
-                            ++aRow;
+                                wn[rowIdxSparseVector.Key, hTColumn] = rowIdxSparseVector.Value.Sum(pair => pair.Value * hT[pair.Key, hTColumn]);
+                            } 
                         }
 
                         // hhT = h * h.T - symmetric array
@@ -207,7 +203,8 @@
                 .Select(rowIdxSparseVector =>
                             ToDenseVector(rowIdxSparseVector.Value, cc)
                                 .Select(element => element.Value - GetMultiplicationElement(w, h, rowIdxSparseVector.Key, element.Key))
-                                .Select(diff => diff * diff).Sum())
+                                .Select(diff => diff * diff)
+                                .Sum())
                 .Sum();
         }
 
