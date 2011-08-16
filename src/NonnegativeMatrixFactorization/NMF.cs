@@ -3,6 +3,7 @@
     using System;
     using System.Collections.Generic;
     using System.Linq;
+    using System.Threading.Tasks;
 
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
@@ -50,20 +51,7 @@
                 for (int iteration = 0; iteration < maxIterations; iteration++)
                 {
                     // Calculate current difference cost
-                    euclideanDistance = 0.0;
-                    var row = 0;
-                    foreach (var sparseVector in sparseMatrixReader.ReadRows())
-                    {
-                        var column = 0;
-
-                        foreach (var element in ToDenseVector(sparseVector, cc))
-                        {
-                            var diff = element - GetMultiplicationElement(w, h, row, column++);
-                            euclideanDistance += diff * diff;
-                        }
-
-                        ++row;
-                    }                   
+                    euclideanDistance = EuclideanDistance(this.sparseMatrixReader, w, h);
 
                     // Terminate if the matrix has been fully factorized
                     if (euclideanDistance <= double.Epsilon)
@@ -96,45 +84,45 @@
                         }
 
                         // wTw = w.T * w - is symmetric array
-                        for (int i = 0; i < maxFeaturesCount; i++)
-                        {
-                            // optimization: compute right upper half array only
-                            for (int j = i; j < maxFeaturesCount; j++)
+                        Parallel.For(0, maxFeaturesCount, i =>
                             {
-                                // compute wTw[i,j] as dot product of row i in wT by column j in w
-                                var v = GetMultiplicationElement(wT, w, i, j);
-                                wTw[i, j] = v;
-
-                                // optimization: copy result to wTw[j,i] (left bottom)
-                                if (i != j)
+                                // optimization: compute right upper half array only
+                                for (int j = i; j < maxFeaturesCount; j++)
                                 {
-                                    wTw[j, i] = v;
+                                    // compute wTw[i,j] as dot product of row i in wT by column j in w
+                                    var v = GetMultiplicationElement(wT, w, i, j);
+                                    wTw[i, j] = v;
+
+                                    // optimization: copy result to wTw[j,i] (left bottom)
+                                    if (i != j)
+                                    {
+                                        wTw[j, i] = v;
+                                    }
                                 }
-                            }
-                        }
+                            });
 
                         // hd = (w.T * w) * h
-                        for (int i = 0; i < maxFeaturesCount; i++)
-                        {
-                            for (int j = 0; j < cc; j++)
-                            {
-                                hd[i, j] = GetMultiplicationElement(wTw, h, i, j);
-                            }
-                        }
+                        Parallel.For(0, maxFeaturesCount, i =>
+                                {
+                                    for (int j = 0; j < cc; j++)
+                                    {
+                                        hd[i, j] = GetMultiplicationElement(wTw, h, i, j);
+                                    }
+                                });
 
                         // update h = h .* hn ./ hd
-                        for (int i = 0; i < maxFeaturesCount; i++)
-                        {
-                            for (int j = 0; j < cc; j++)
+                        Parallel.For(0, maxFeaturesCount, i =>
                             {
-                                var nom = hn[i, j];
-                                var den = hd[i, j];
-                                if (nom != den)
+                                for (int j = 0; j < cc; j++)
                                 {
-                                    h[i, j] = h[i, j] * nom / den;
-                                }
-                            }
-                        }
+                                    var nom = hn[i, j];
+                                    var den = hd[i, j];
+                                    if (nom != den)
+                                    {
+                                        h[i, j] = h[i, j] * nom / den;
+                                    }
+                                }                                
+                            });
                     }
 
                     // Update weights matrix
@@ -157,45 +145,45 @@
                         }
 
                         // hhT = h * h.T - symmetric array
-                        for (int i = 0; i < maxFeaturesCount; i++)
-                        {
-                            // optimization: compute right upper half array only
-                            for (int j = i; j < maxFeaturesCount; j++)
+                        Parallel.For(0, maxFeaturesCount, i =>
                             {
-                                // compute hhT[i,j] as dot product of row i in h by column j in hT
-                                var v = GetMultiplicationElement(h, hT, i, j);
-                                hhT[i, j] = v;
-
-                                // optimization: copy result to hhT[j,i] (left bottom)
-                                if (i != j)
+                                // optimization: compute right upper half array only
+                                for (int j = i; j < maxFeaturesCount; j++)
                                 {
-                                    hhT[j, i] = v;
+                                    // compute hhT[i,j] as dot product of row i in h by column j in hT
+                                    var v = GetMultiplicationElement(h, hT, i, j);
+                                    hhT[i, j] = v;
+
+                                    // optimization: copy result to hhT[j,i] (left bottom)
+                                    if (i != j)
+                                    {
+                                        hhT[j, i] = v;
+                                    }
                                 }
-                            }
-                        }
+                            });
 
                         // wd = w * (h * h.T)
-                        for (int i = 0; i < rc; i++)
-                        {
-                            for (int j = 0; j < maxFeaturesCount; j++)
+                        Parallel.For(0, rc, i =>
                             {
-                                wd[i, j] = GetMultiplicationElement(w, hhT, i, j);
-                            }
-                        }
+                                for (int j = 0; j < maxFeaturesCount; j++)
+                                {
+                                    wd[i, j] = GetMultiplicationElement(w, hhT, i, j);
+                                }
+                            });
 
                         // update w = w .* wn ./ wd
-                        for (int i = 0; i < rc; i++)
-                        {
-                            for (int j = 0; j < maxFeaturesCount; j++)
+                        Parallel.For(0, rc, i =>
                             {
-                                var nom = wn[i, j];
-                                var den = wd[i, j];
-                                if (nom != den)
+                                for (int j = 0; j < maxFeaturesCount; j++)
                                 {
-                                    w[i, j] = w[i, j] * nom / den;
-                                }
-                            }
-                        }
+                                    var nom = wn[i, j];
+                                    var den = wd[i, j];
+                                    if (nom != den)
+                                    {
+                                        w[i, j] = w[i, j] * nom / den;
+                                    }
+                                }                                
+                            });
                     }
                 }
             }
@@ -210,7 +198,30 @@
             return new NMFactorization(w, h, euclideanDistance);
         }
 
+        private static double EuclideanDistance(ISparseMatrixReader<double> matrixReader, IArray<double> w, IArray<double> h)
+        {
+            var cc = h.Size1;
+
+            return
+                GetNumberedRows(matrixReader.ReadRows()).AsParallel()
+                .Select(rowIdxSparseVector =>
+                            ToDenseVector(rowIdxSparseVector.Value, cc)
+                                .Select(element => element.Value - GetMultiplicationElement(w, h, rowIdxSparseVector.Key, element.Key))
+                                .Select(diff => diff * diff).Sum())
+                .Sum();
+        }
+
         #region Helpers
+
+        private static IEnumerable<KeyValuePair<int, SparseVector<double>>> GetNumberedRows(IEnumerable<SparseVector<double>> rows)
+        {
+            var idx = 0;
+            foreach (var row in rows)
+            {
+                yield return new KeyValuePair<int, SparseVector<double>>(idx, row);
+                idx++;
+            }
+        }
 
         private static double GetMultiplicationElement(IArray<double> a, IArray<double> b, int row, int column)
         {
@@ -230,7 +241,7 @@
             return result;
         }
 
-        static IEnumerable<T> ToDenseVector<T>(IEnumerable<KeyValuePair<int, T>> sparseVector, int denseVectorLength) 
+        private static IEnumerable<KeyValuePair<int, T>> ToDenseVector<T>(IEnumerable<KeyValuePair<int, T>> sparseVector, int denseVectorLength) 
             where T : struct, IEquatable<T>
         {
             var i = 0;
@@ -238,13 +249,13 @@
             {
                 while (i < pair.Key && i < denseVectorLength)
                 {
-                    yield return default(T);
+                    yield return new KeyValuePair<int, T>(i, default(T));
                     i++;
                 }
 
                 if (i < denseVectorLength)
                 {
-                    yield return pair.Value;
+                    yield return new KeyValuePair<int, T>(i, pair.Value);
                     i++;
                 }
             }
@@ -252,7 +263,7 @@
             // the rest
             while (i < denseVectorLength)
             {
-                yield return default(T);
+                yield return new KeyValuePair<int, T>(i, default(T));
                 i++;
             }
         }
@@ -261,13 +272,18 @@
         {
             var random = new Random();
 
-            for (int i = 0; i < array.Size0; i++)
-            {
-                for (int j = 0; j < array.Size1; j++)
+            Parallel.For(0, array.Size0, i =>
                 {
-                    array[i, j] = random.NextDouble();
-                }
-            }
+                    for (int j = 0; j < array.Size1; j++)
+                    {
+                        double nextDouble;
+                        lock(random)
+                        {
+                            nextDouble = random.NextDouble();
+                        }
+                        array[i, j] = nextDouble;
+                    }
+                });
         }
 
         #endregion
