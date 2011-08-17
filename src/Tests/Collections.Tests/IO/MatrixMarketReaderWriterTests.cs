@@ -21,9 +21,9 @@
             // arrange
             const int rows = 100;
             const int columns = 100;
-            const double zeroProbability = 0.99;
-            var originalVectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, zeroProbability).ToArray();
+            const double density = 0.01;
 
+            var originalVectors = SparseVectorHelper.GenerateSparseVectors(rows, columns, density, () => SparseVectorHelper.RandomInInterval(-100, 100, 2)).ToArray();
             // act
 
             //      write

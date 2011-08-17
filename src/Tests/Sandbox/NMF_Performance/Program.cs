@@ -16,16 +16,16 @@
             const string matrixFileName = @"c:\temp\matrix.txt";
             const int rows = 10000;
             const int columns = 1000;
-            const int avgNonZeroElementsInRow = 3;
+            const double density = 0.01;
 
             const int featuresCount = 10;
             const int iterationsCount = 30;
 
-            Console.WriteLine("Generating matrix {0}x{1} with avg. {2} non-zero elements ({3}%)...", rows, columns, (long)avgNonZeroElementsInRow * rows, (double)avgNonZeroElementsInRow * 100.0 / columns);
+            Console.WriteLine("Generating matrix {0}x{1} with avg. {2} non-zero elements ({3}%)...", rows, columns, (long)((double)rows * columns * density), density * 100.0);
             using (var file = new FileStream(matrixFileName, FileMode.Create))
             using (var mmwriter = new MatrixMarketWriter<double>(file))
             {
-                var vectors = SparseVectorHelper.GenerateSparceVectors(rows, columns, (double)(columns - avgNonZeroElementsInRow) / columns, true);
+                var vectors = SparseVectorHelper.GenerateSparseVectors(rows, columns, density, () => SparseVectorHelper.RandomInInterval(0.01, 100, 2));
                 mmwriter.Write(vectors);
             }
 

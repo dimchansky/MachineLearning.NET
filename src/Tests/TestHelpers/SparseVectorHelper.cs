@@ -7,42 +7,88 @@ namespace TestHelpers
 
     public static class SparseVectorHelper
     {
-        private static readonly Random Rnd = new Random();
-
-        public static IDictionary<int, double> GenerateRandomVector(int count, double zeroProbability, bool onlyPositiveValues = false)
+        public static IEnumerable<KeyValuePair<int, double>> GenerateRandomVector(int columns, double rowDensity, Func<double> randomGenerator)
         {
-            var dictionary = new Dictionary<int, double>(count);
-
-            for (int i = 0; i < count; i++)
+            if (rowDensity < 0 || rowDensity > 1)
             {
-                dictionary[i] = Rnd.NextDouble() < zeroProbability
-                                ? 0.0
-                                : Math.Round(
-                                    IntervalToInterval(Rnd.NextDouble(), 0, 1, 0.01, 100) *
-                                    (onlyPositiveValues || Rnd.NextDouble() < 0.5 ? 1 : -1),
-                                    2,
-                                    MidpointRounding.AwayFromZero);
+                throw new ArgumentOutOfRangeException("rowDensity");
             }
 
-            return dictionary;
+            var nonZeroElementsInRow = Poisson(rowDensity);
+            var result = new Dictionary<int, double>();
+
+            for (var j = 0; j < nonZeroElementsInRow; j++)
+            {
+                result[Random.Next(0, columns)] = randomGenerator();
+            }
+
+            return result;
         }
 
-        public static SparseVector<double> GenerateRandomSparseVector(int count, double zeroProbability, bool onlyPositiveValues = false)
+        public static SparseVector<double> GenerateSparseVector(int columns, double density, Func<double> randomGenerator)
         {
-            var vector = new SparseVector<double>();
-
-            for (int i = 0; i < count; i++)
+            if (density < 0 || density > 1)
             {
-                vector[i] = Rnd.NextDouble() < zeroProbability
-                                ? 0.0
-                                : Math.Round(
-                                    IntervalToInterval(Rnd.NextDouble(), 0, 1, 0.01, 100) *
-                                    (onlyPositiveValues || Rnd.NextDouble() < 0.5 ? 1 : -1),
-                                    2,
-                                    MidpointRounding.AwayFromZero);
+                throw new ArgumentOutOfRangeException("rowDensity");
             }
 
-            return vector;
+            var rowDensity = columns * density;
+            var nonZeroElementsInRow = Poisson(rowDensity);
+            var result = new SparseVector<double>();
+
+            for (var j = 0; j < nonZeroElementsInRow; j++)
+            {
+                result[Random.Next(0, columns)] = randomGenerator();
+            }
+
+            return result;
+        }
+
+        public static IEnumerable<SparseVector<double>> GenerateSparseVectors(int rows, int columns, double density, Func<double> randomGenerator)
+        {
+            if (randomGenerator == null)
+            {
+                throw new ArgumentNullException("randomGenerator");
+            }
+            if (density < 0 || density > 1)
+            {
+                throw new ArgumentOutOfRangeException("density");
+            }
+
+            for (var i = 0; i < rows; i++)
+            {
+                yield return GenerateSparseVector(columns, density, randomGenerator);
+            }
+        }
+
+        public static double RandomInInterval(double fromX, double toX, int digits)
+        {
+            return Math.Round(IntervalToInterval(Random.NextDouble(), 0, 1, fromX, toX), digits, MidpointRounding.AwayFromZero);
+        }
+
+        public static double UniformRandom()
+        {
+            return Random.NextDouble();
+        }
+
+        #region Helpers
+
+        private static readonly Random Random = new Random();
+
+        private static int Poisson(double mean)
+        {
+            if (mean < 0.0) throw new ArgumentOutOfRangeException("mean");
+            if (mean == 0.0) return 0;
+            double p = Math.Exp(-mean);
+            double pm = 1.0;
+            int result = 0;
+            do
+            {
+                ++result;
+                pm *= Random.NextDouble();
+            }
+            while (pm > p);
+            return result - 1;
         }
 
         private static double IntervalToInterval(double x, double x1, double x2, double y1, double y2)
@@ -50,12 +96,6 @@ namespace TestHelpers
             return (x - x1) / (x2 - x1) * (y2 - y1) + y1;
         }
 
-        public static IEnumerable<SparseVector<double>> GenerateSparceVectors(int rows, int columns, double zeroProbability, bool onlyPositiveValues = false)
-        {
-            for (int i = 0; i < rows; i++)
-            {
-                yield return GenerateRandomSparseVector(columns, zeroProbability, onlyPositiveValues);
-            }
-        }
+        #endregion
     }
 }
