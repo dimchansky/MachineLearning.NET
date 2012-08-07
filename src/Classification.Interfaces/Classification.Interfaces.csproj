@@ -37,6 +37,7 @@
   <ItemGroup>
     <Compile Include="IClassifier.cs" />
     <Compile Include="IDataSet.cs" />
+    <Compile Include="IProbabilisticClassifier.cs" />
     <Compile Include="ISupervisedClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
