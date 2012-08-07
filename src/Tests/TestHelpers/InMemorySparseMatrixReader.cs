@@ -2,8 +2,6 @@ namespace TestHelpers
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
 
