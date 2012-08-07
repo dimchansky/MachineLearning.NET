@@ -2,6 +2,7 @@
 {
     using System;
     using System.Collections.Generic;
+    using System.Linq;
 
     using MachineLearning.Classification.Interfaces;
     using MachineLearning.Classification.Model;
@@ -23,6 +24,7 @@
         #region Field and properties
 
         private readonly TrainingSample<TCategory, TAttribute>[] data;
+        private readonly int samplesCount;
 
         #endregion
 
@@ -34,7 +36,9 @@
             {
                 throw new ArgumentNullException("data");
             }
+
             this.data = data;
+            this.samplesCount = data.Aggregate(0, (acc, sample) => acc + sample.Count);
         }
 
         #endregion
@@ -43,7 +47,12 @@
 
         public IEnumerable<TrainingSample<TCategory, TAttribute>> GetData()
         {
-            return data;
+            return this.data;
+        }
+
+        public int GetTrainingSamplesCount()
+        {
+            return this.samplesCount;
         }
 
         #endregion

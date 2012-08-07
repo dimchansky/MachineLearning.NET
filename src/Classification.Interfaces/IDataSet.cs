@@ -10,5 +10,6 @@
         where TAttribute : IEquatable<TAttribute>
     {
         IEnumerable<TrainingSample<TCategory, TAttribute>> GetData();
+        int GetTrainingSamplesCount();
     }
 }
