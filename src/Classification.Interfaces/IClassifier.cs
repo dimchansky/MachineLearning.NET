@@ -1,4 +1,4 @@
-﻿namespace MachineLearning.Classification
+﻿namespace MachineLearning.Classification.Interfaces
 {
     using System;
 

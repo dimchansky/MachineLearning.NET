@@ -1,7 +1,9 @@
-﻿namespace MachineLearning.Classification
+﻿namespace MachineLearning.Classification.Interfaces
 {
     using System;
     using System.Collections.Generic;
+
+    using MachineLearning.Classification.Model;
 
     public interface IDataSet<TCategory, TAttribute>
         where TCategory : IEquatable<TCategory> 

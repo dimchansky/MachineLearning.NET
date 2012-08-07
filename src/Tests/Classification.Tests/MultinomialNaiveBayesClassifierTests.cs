@@ -1,6 +1,7 @@
 ﻿namespace Classification.Tests
 {
     using MachineLearning.Classification;
+    using MachineLearning.Classification.Model;
     using MachineLearning.Classification.NaiveBayes;
 
     using NUnit.Framework;

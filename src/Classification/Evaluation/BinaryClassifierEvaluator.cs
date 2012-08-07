@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    using MachineLearning.Classification.Interfaces;
+    using MachineLearning.Classification.Model;
+
     public static class BinaryClassifierEvaluator
     {
         public static BinaryClassifierEvaluator<TCategory, TAttribute> Create<TCategory, TAttribute>(

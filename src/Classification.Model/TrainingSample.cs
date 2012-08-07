@@ -1,4 +1,4 @@
-namespace MachineLearning.Classification
+namespace MachineLearning.Classification.Model
 {
     using System;
 

@@ -3,6 +3,9 @@
     using System;
     using System.Collections.Generic;
 
+    using MachineLearning.Classification.Interfaces;
+    using MachineLearning.Classification.Model;
+
     public static class InMemoryDataSet
     {
         public static IDataSet<TCategory, TAttribute> Create<TCategory, TAttribute>(TrainingSample<TCategory, TAttribute>[] data)

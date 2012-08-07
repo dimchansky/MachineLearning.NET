@@ -4,6 +4,9 @@
     using System.Collections.Generic;
     using System.Linq;
 
+    using MachineLearning.Classification.Interfaces;
+    using MachineLearning.Classification.Model;
+
     public static class MultinomialNaiveBayesClassifier
     {
         public static ISupervisedClassifier<TCategory, TAttribute> Create<TCategory, TAttribute>(IDataSet<TCategory, TAttribute> trainingDataSet)
