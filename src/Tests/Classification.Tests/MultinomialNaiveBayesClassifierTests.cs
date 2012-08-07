@@ -3,12 +3,12 @@
     using MachineLearning.Classification;
     using MachineLearning.Classification.NaiveBayes;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class MultinomialNaiveBayesClassifierTests
     {
-        [TestMethod]
+        [Test]
         public void CorrectlyClassifiesTestDataSetFromExample13Dot1()
         {
             var trainingData = InMemoryDataSet.Create(new[]
