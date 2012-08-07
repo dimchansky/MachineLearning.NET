@@ -47,6 +47,9 @@
     <Compile Include="Evaluation\ConfusionMatrix.cs" />
     <Compile Include="Evaluation\ReadonlyConfusionMatrix.cs" />
     <Compile Include="InMemoryDataSet.cs" />
+    <Compile Include="LogisticRegression\LogisticRegression.cs" />
+    <Compile Include="LogisticRegression\LogisticRegressionClassifier.cs" />
+    <Compile Include="LogisticRegression\LogisticRegressionClassifierTraining.cs" />
     <Compile Include="NaiveBayes\MultinomialNaiveBayesClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Utils\QuasiNewtonOptimizer.cs" />
