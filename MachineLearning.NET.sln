@@ -35,6 +35,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{AC04AE
 		.nuget\packages.config = .nuget\packages.config
 	EndProjectSection
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification.Interfaces", "src\Classification.Interfaces\Classification.Interfaces.csproj", "{F831BA27-0202-4988-959C-3DCEF7929FEB}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classification.Model", "src\Classification.Model\Classification.Model.csproj", "{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Interfaces", "Interfaces", "{997DDFB9-D116-4D2E-98C0-B2A36EEF8453}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Models", "Models", "{12DADF05-D31D-4DC1-A3A4-639656D815BF}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -155,6 +163,26 @@ Global
 		{75558458-D175-4AB6-AFF6-43D4E6A7130D}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{75558458-D175-4AB6-AFF6-43D4E6A7130D}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{75558458-D175-4AB6-AFF6-43D4E6A7130D}.Release|x86.ActiveCfg = Release|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{F831BA27-0202-4988-959C-3DCEF7929FEB}.Release|x86.ActiveCfg = Release|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Release|Any CPU.Build.0 = Release|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -167,5 +195,8 @@ Global
 		{3EA36C72-94E1-4554-B703-C42423C4F248} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 		{31A4EC42-542E-4B52-B85D-DA1D6F8A7E49} = {63C2AB60-43DB-4EED-8FDB-E32177ACC7B0}
 		{75558458-D175-4AB6-AFF6-43D4E6A7130D} = {31A4EC42-542E-4B52-B85D-DA1D6F8A7E49}
+		{F831BA27-0202-4988-959C-3DCEF7929FEB} = {997DDFB9-D116-4D2E-98C0-B2A36EEF8453}
+		{C52C782A-DFAB-418B-94F5-1E7E1AC1D679} = {12DADF05-D31D-4DC1-A3A4-639656D815BF}
+		{6A1285B1-FD12-4D65-9768-8613BCAA5C27} = {12DADF05-D31D-4DC1-A3A4-639656D815BF}
 	EndGlobalSection
 EndGlobal

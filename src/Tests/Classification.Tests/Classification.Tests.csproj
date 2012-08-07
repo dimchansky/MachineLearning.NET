@@ -53,6 +53,14 @@
     <Compile Include="MultinomialNaiveBayesClassifierTests.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\Classification.Interfaces\Classification.Interfaces.csproj">
+      <Project>{F831BA27-0202-4988-959C-3DCEF7929FEB}</Project>
+      <Name>Classification.Interfaces</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\Classification.Model\Classification.Model.csproj">
+      <Project>{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}</Project>
+      <Name>Classification.Model</Name>
+    </ProjectReference>
     <ProjectReference Include="..\..\Classification\Classification.csproj">
       <Project>{0864337F-A948-4470-8DBC-E576CB45BD9D}</Project>
       <Name>Classification</Name>

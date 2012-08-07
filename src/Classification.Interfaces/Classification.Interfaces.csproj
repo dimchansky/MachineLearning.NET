@@ -5,11 +5,11 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProductVersion>8.0.30703</ProductVersion>
     <SchemaVersion>2.0</SchemaVersion>
-    <ProjectGuid>{0864337F-A948-4470-8DBC-E576CB45BD9D}</ProjectGuid>
+    <ProjectGuid>{F831BA27-0202-4988-959C-3DCEF7929FEB}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>MachineLearning.Classification</RootNamespace>
-    <AssemblyName>MachineLearning.Classification</AssemblyName>
+    <RootNamespace>MachineLearning.Classification.Interfaces</RootNamespace>
+    <AssemblyName>MachineLearning.Classification.Interfaces</AssemblyName>
     <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -40,18 +40,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Evaluation\BinaryClassifierEvaluator.cs" />
-    <Compile Include="Evaluation\ConfusionMatrix.cs" />
-    <Compile Include="Evaluation\ReadonlyConfusionMatrix.cs" />
-    <Compile Include="InMemoryDataSet.cs" />
-    <Compile Include="NaiveBayes\MultinomialNaiveBayesClassifier.cs" />
+    <Compile Include="IClassifier.cs" />
+    <Compile Include="IDataSet.cs" />
+    <Compile Include="ISupervisedClassifier.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Classification.Interfaces\Classification.Interfaces.csproj">
-      <Project>{F831BA27-0202-4988-959C-3DCEF7929FEB}</Project>
-      <Name>Classification.Interfaces</Name>
-    </ProjectReference>
     <ProjectReference Include="..\Classification.Model\Classification.Model.csproj">
       <Project>{C52C782A-DFAB-418B-94F5-1E7E1AC1D679}</Project>
       <Name>Classification.Model</Name>
