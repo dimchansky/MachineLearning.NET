@@ -8,14 +8,14 @@
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     using TestHelpers;
 
-    [TestClass]
+    [TestFixture]
     public class MatrixMarketReaderWriterTests
     {
-        [TestMethod]
+        [Test]
         public void MatrixMarketReaderReadSameVectorsAsMatrixMarketWriterWrited()
         {
             // arrange

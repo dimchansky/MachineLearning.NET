@@ -9,14 +9,14 @@
     using MachineLearning.Collections.Array;
     using MachineLearning.Collections.IO;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     using TestHelpers;
 
-    [TestClass]
+    [TestFixture]
     public class CachedMatrixMarketReaderTests
     {
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorThrowsArgumentNullExceptionForNullReaderArgument()
         {
@@ -32,7 +32,7 @@
             Assert.Fail();
         }
 
-        [TestMethod]
+        [Test]
         public void InitializedCachedMatrixMarketReaderReturnsTheSamePropertiesValues()
         {
             // arrange
@@ -52,7 +52,7 @@
 
         }
 
-        [TestMethod]
+        [Test]
         public void InitializedCachedMatrixMarketReaderReturnsTheSamePropertiesValuesForEmptyRowsArray()
         {
             // arrange
@@ -70,7 +70,7 @@
 
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsReturnSameVectorsInFirstScan()
         {
             // arrange
@@ -91,7 +91,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsReturnSameVectorsInFirstScanForEmptyRowsArray()
         {
             // arrange
@@ -112,7 +112,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsReturnSameVectorsInSecondScan()
         {
             // arrange
@@ -136,7 +136,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsReturnSameVectorsInSecondScanForEmptyRowsArray()
         {
             // arrange
@@ -160,7 +160,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsInSecondScanDoNotUseOriginalReader()
         {
             // arrange
@@ -190,7 +190,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsInSecondScanUseOriginalReaderIfFirstScanWasNotFull()
         {
             // arrange
@@ -220,7 +220,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void ReadRowsInSecondScanDoNotUseOriginalReaderForEmptyRowsArray()
         {
             // arrange

@@ -6,14 +6,14 @@
     using MachineLearning.Collections.Array;
     using MachineLearning.NonnegativeMatrixFactorization;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     using TestHelpers;
 
-    [TestClass]
+    [TestFixture]
     public class NMFTests
     {
-        [TestMethod]
+        [Test]
         public void FactorizeTestMethod1()
         {
             // arrange

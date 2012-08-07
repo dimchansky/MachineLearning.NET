@@ -7,14 +7,14 @@
 
     using MachineLearning.Collections.Array;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
     using TestHelpers;
 
-    [TestClass]
+    [TestFixture]
     public class SparseVectorTests
     {
-        [TestMethod]
+        [Test]
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughSetAccessors()
         {
             // arrange           
@@ -35,7 +35,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughAddMethod()
         {
             // arrange           
@@ -56,7 +56,7 @@
             }            
         }
 
-        [TestMethod]
+        [Test]
         public void IndexedPropertyGetAccessorReturnsWhatWasSavedThroughConstructor()
         {
             // arrange           
@@ -72,7 +72,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void ConstructorThrowsArgumentNullExceptionIfNullArgumentPassed()
         {
@@ -85,7 +85,7 @@
             Assert.Fail("SparseVector ctor must throw ArgumentNullException if null argument passed.");
         }
 
-        [TestMethod]
+        [Test]
         public void NonZeroValuesCountReturnsZeroForEmptyVector()
         {
             // arrange
@@ -98,7 +98,7 @@
             
         }
 
-        [TestMethod]
+        [Test]
         public void NonZeroValuesCountReturnsOnlyNonZeroElementsCount()
         {
             // arrange
@@ -118,7 +118,7 @@
             Assert.AreEqual(nonZeroElementsCount, sv.NonZeroValuesCount);
         }
 
-        [TestMethod]
+        [Test]
         public void EnumeratorReturnsOnlyNonZeroValuePairsOrderedByIndexAscending()
         {
             // arrange
@@ -132,7 +132,7 @@
             Assert.IsTrue(sv.SequenceEqual(nonZeroValuesPairs));
         }
 
-        [TestMethod]
+        [Test]
         public void EqualOperatorReturnsTrueForEqualSparseVectors()
         {
             // arrange
@@ -150,7 +150,7 @@
             Assert.IsFalse(falseResult);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualsReturnsFalseForNullArgument()
         {
             // arrange
@@ -167,7 +167,7 @@
             Assert.IsFalse(falseResult2);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualsReturnsFalseForDifferentTypeArgument()
         {
             // arrange
@@ -181,7 +181,7 @@
             Assert.IsFalse(falseResult1);
         }
 
-        [TestMethod]
+        [Test]
         public void EqualsReturnsTrueForSameReferenceObjects()
         {
             // arrange
@@ -198,7 +198,7 @@
             Assert.IsTrue(trueResult2);
         }
 
-        [TestMethod]
+        [Test]
         public void GetHashCodeReturnsSameHashCodeForEqualSparseVectors()
         {
             // arrange

@@ -4,12 +4,12 @@
 
     using MachineLearning.Collections.Array;
 
-    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using NUnit.Framework;
 
-    [TestClass]
+    [TestFixture]
     public class MemoryMappedArrayTests
     {
-        [TestMethod]
+        [Test]
         public void OneDimensionConstructorDoesNotThrowException()
         {
             const int length = 10000;
@@ -18,7 +18,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TwoDimensionConstructorDoesNotThrowException()
         {
             const int size0 = 500;
@@ -28,7 +28,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void OneDimensionArrayReturnsCorrectSizesAndCount()
         {
             const int length = 10000;
@@ -40,7 +40,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TwoDimensionArrayReturnsCorrectSizesAndCount()
         {
             const int size0 = 500;
@@ -53,7 +53,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void OneDimensionIndexedPropertyWorksCorrectly()
         { 
             const int length = 10000;
@@ -71,7 +71,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void OneDimensionConstructorCreateArrayInitializedWithDefaultValue()
         {
             const int length = 10000;
@@ -84,7 +84,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TwoDimensionIndexedPropertyWorksCorrectly()
         {
             const int size0 = 500;
@@ -110,7 +110,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TwoDimensionConstructorCreateArrayInitializedWithDefaultValue()
         {
             const int size0 = 500;
@@ -127,7 +127,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CreateNewCreatesOneDimensionalMatrixAndOpenCorrectlyReadIt()
         {
             const int length = 100;
@@ -170,7 +170,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void CreateNewCreatesTwoDimensionalMatrixAndOpenCorrectlyReadIt()
         {
             const int size0 = 500;
@@ -218,7 +218,7 @@
             }
         }
 
-        [TestMethod]
+        [Test]
         public void TransposeCreatesTransposedArrayForOneDimensionArray()
         {
             const int length = 10000;
@@ -246,7 +246,7 @@
 
         }
 
-        [TestMethod]
+        [Test]
         public void TransposeCreatesTransposedArrayForTwoDimensionArray()
         {
             const int size0 = 500;
